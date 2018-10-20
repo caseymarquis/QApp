@@ -1,0 +1,1 @@
+node ./node_modules/webpack/bin/webpack.js --progress --colors --display-error-details --content-base ../wwwroot
