@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App
+namespace AppNS
 {
     //http://stackoverflow.com/questions/35370384/how-to-get-declared-and-inherited-members-from-typeinfo
     public static class TypeInfoAllMemberExtensions

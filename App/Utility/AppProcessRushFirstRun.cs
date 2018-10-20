@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App {
+namespace AppNS {
     /// <summary>
     /// This is an AppProcess which spams attempts to complete its initial run,
     /// then runs at a slower interval afterwards. This is useful for processes

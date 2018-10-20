@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Database.Models {
+namespace AppNS.Database.Models {
     public class BaseModel {
         [Key]
         public int Id { get; set; }

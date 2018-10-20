@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 using System.Reflection;
 
-namespace App
+namespace AppNS
 {
     public class PropertyAccessor
     {

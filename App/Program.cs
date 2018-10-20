@@ -2,16 +2,13 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using App.Database;
-using App.Web;
+using AppNS.Database;
+using AppNS.Web;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace App {
+namespace AppNS {
     class Program {
-        static async Task Main(string[] args) {
-            var app = new App();
-            await app.Run();
-        }
+        
     }
 }

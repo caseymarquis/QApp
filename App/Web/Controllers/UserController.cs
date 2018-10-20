@@ -1,6 +1,6 @@
-﻿using App.Database.Models;
-using App.Web;
-using App.Web.Models;
+﻿using AppNS.Database.Models;
+using AppNS.Web;
+using AppNS.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Web.Controllers {
+namespace AppNS.Web.Controllers {
     public class UserController : Controller {
         /// <summary>
         /// Returns a list of the existing users within the system.

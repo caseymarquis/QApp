@@ -1,5 +1,5 @@
-﻿using App.Database;
-using App.Web.Models;
+﻿using AppNS.Database;
+using AppNS.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace App.Web.Controllers {
+namespace AppNS.Web.Controllers {
     public class AuthController : Controller {
 
         private static SemaphoreSlim bruteForceLock = new SemaphoreSlim(1, 1);

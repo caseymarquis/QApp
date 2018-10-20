@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Web.Models {
+namespace AppNS.Web.Models {
     public class Web_AuthWrapper {
         /// <summary>
         /// A token for interacting in the API in the future.

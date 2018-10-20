@@ -1,4 +1,4 @@
-﻿using App.Web;
+﻿using AppNS.Web;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace App.Processes {
+namespace AppNS.Processes {
     public class WebSite_Run : AppProcess {
         public override string ProcessName => nameof(WebSite_Run);
         protected override TimeSpan RunDelay => new TimeSpan(0, 0, 30);

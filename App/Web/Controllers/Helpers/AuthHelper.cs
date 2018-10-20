@@ -1,4 +1,4 @@
-﻿using App.Database;
+﻿using AppNS.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Web.Controllers {
+namespace AppNS.Web.Controllers {
     public static class AuthHelper {
         public static async Task<Web_AuthResponse<T>> WithUser<T>(string token, Func<UserAuthDetails, AppDbContext, Task<T>> doThis) {
             return await AppDbContext.WithContext(async db => {

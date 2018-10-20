@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Database.Models {
+namespace AppNS.Database.Models {
     public class BaseModelWithDates : BaseModel {
         public BaseModelWithDates() {
             this.CreatedUtc = DateTime.UtcNow;

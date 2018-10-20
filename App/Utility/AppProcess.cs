@@ -1,4 +1,4 @@
-﻿using App.Utility;
+﻿using AppNS.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace App {
+namespace AppNS {
     /// <summary>
     /// This is a container which is run periodically in the main application loop.
     /// How often it's run is based on what its RunDelay() function returns.

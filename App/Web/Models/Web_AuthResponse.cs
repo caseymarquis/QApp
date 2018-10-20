@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Web {
+namespace AppNS.Web {
     public class Web_AuthResponse<T> {
         public bool tokenNotFound { get; set; }
         public bool notAuthorized { get; set; }

@@ -1,4 +1,4 @@
-﻿using App.Database.Models;
+﻿using AppNS.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Database {
+namespace AppNS.Database {
     public partial class AppDbContext : DbContext {
         /// <summary>
         /// Don't use this directly!

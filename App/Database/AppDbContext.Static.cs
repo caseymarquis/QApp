@@ -1,4 +1,4 @@
-﻿using App.Database.Models;
+﻿using AppNS.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Nito.AsyncEx;
 using System;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace App.Database {
+namespace AppNS.Database {
     public partial class AppDbContext : DbContext {
         public static readonly DbConnectionSettings DbConnectionSettings = new DbConnectionSettings();
         private static AsyncReaderWriterLock sqliteLock = new AsyncReaderWriterLock();

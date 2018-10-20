@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Collections;
 
-namespace App
+namespace AppNS
 {
 
     public class PropertyCache

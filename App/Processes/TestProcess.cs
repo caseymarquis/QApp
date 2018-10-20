@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Processes {
+namespace AppNS.Processes {
     public class TestProcess : AppProcess {
         public override string ProcessName => nameof(TestProcess);
         protected override TimeSpan RunDelay => new TimeSpan(0, 0, 2);

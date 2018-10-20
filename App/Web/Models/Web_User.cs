@@ -1,9 +1,9 @@
-﻿using App.Database.Models;
+﻿using AppNS.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace App.Web.Models
+namespace AppNS.Web.Models
 {
     public class Web_User
     {

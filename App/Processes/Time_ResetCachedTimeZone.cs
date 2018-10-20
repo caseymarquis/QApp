@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Processes {
+namespace AppNS.Processes {
     public class Time_ResetCachedTimeZone : AppProcess {
         public override string ProcessName => nameof(Time_ResetCachedTimeZone);
         protected override TimeSpan RunDelay => new TimeSpan(0, 10, 0);

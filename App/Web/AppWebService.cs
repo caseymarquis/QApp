@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace App.Web
+namespace AppNS.Web
 {
     public class AppWebService
     {
@@ -33,9 +33,9 @@ namespace App.Web
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-            if (env.IsDevelopment()) {
+#if DEBUG
                 app.UseDeveloperExceptionPage();
-            }
+#endif
             app.UseDefaultFiles();
 
             app.UseStaticFiles();
@@ -61,14 +61,14 @@ namespace App.Web
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "QApp API v1");
             });
-            if (env.IsDevelopment()) {
-                app.UseCors(builder => builder
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowAnyOrigin()
-                .AllowCredentials()
-                );
-            }
+#if DEBUG
+            app.UseCors(builder => builder
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin()
+            .AllowCredentials()
+            );
+#endif
             app.UseMvc();
             app.UseSignalR(routes => {
                 //routes.MapHub<UpdateHub>("updates");
