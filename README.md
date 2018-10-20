@@ -5,5 +5,5 @@ with a database, http api and staticly hosted files (which a reverse proxy can p
 reasonable architecture for doing server side work. The point of which is to eliminate all the time typically spent on boilerplate
 code when you have an idea and want to get it online.
 
-Again, this is not meant for a serious internet facing websites. This is meant for local intranet, or personal internet facing websites
+Again, this is not meant for a serious internet facing website. This is meant for local intranet, or personal internet facing websites
 without any valuable payload.
