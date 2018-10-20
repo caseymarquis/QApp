@@ -61,12 +61,14 @@ namespace App.Web
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "QApp API v1");
             });
-            app.UseCors(builder => builder
+            if (env.IsDevelopment()) {
+                app.UseCors(builder => builder
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowAnyOrigin()
                 .AllowCredentials()
                 );
+            }
             app.UseMvc();
             app.UseSignalR(routes => {
                 //routes.MapHub<UpdateHub>("updates");
