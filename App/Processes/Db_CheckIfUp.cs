@@ -1,4 +1,4 @@
-﻿using AppNS.Database;
+﻿using QApp.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppNS.Processes {
+namespace QApp.Processes {
     public class Db_CheckIfUp : AppProcess {
         object lockEverything = new object();
         private bool m_DbIsUp;

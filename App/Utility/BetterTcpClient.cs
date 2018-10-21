@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AppNS.Utility {
+namespace QApp.Utility {
     /// <summary>
     /// The goal of this client is to create persistent TCP connections
     /// with no worries over the connection locking up or not getting disposed

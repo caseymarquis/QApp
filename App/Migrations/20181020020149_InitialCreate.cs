@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AppNS.Migrations
+namespace QApp.Migrations
 {
     public partial class InitialCreate : Migration
     {

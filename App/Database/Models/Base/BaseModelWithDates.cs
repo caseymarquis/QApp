@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppNS.Database.Models {
+namespace QApp.Database.Models {
     public class BaseModelWithDates : BaseModel {
         public BaseModelWithDates() {
             this.CreatedUtc = DateTime.UtcNow;

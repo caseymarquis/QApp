@@ -1,4 +1,4 @@
-﻿using AppNS.Database.Models;
+﻿using QApp.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppNS.Database.Models {
+namespace QApp.Database.Models {
     public class User : BaseModelWithDates {
 
         public string Email { get; set; }

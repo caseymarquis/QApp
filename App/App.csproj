@@ -9,6 +9,8 @@
     <LangVersion>latest</LangVersion>
     <ApplicationIcon></ApplicationIcon>
     <StartupObject />
+    <RootNamespace>QApp</RootNamespace>
+    <AssemblyName>QApp</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

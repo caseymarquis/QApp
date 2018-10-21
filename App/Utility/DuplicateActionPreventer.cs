@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppNS.Utility {
+namespace QApp.Utility {
     public class DuplicateActionPreventer<T> {
         private object lockEverything = new object();
         private List<T> activeTransactions = new List<T>();

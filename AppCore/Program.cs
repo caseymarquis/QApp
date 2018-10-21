@@ -1,7 +1,8 @@
-﻿using System;
+﻿using QApp;
+using System;
 using System.Threading.Tasks;
 
-namespace AppNS
+namespace AppCore
 {
     class Program
     {

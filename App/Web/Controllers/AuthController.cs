@@ -1,5 +1,5 @@
-﻿using AppNS.Database;
-using AppNS.Web.Models;
+﻿using QApp.Database;
+using QApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AppNS.Web.Controllers {
+namespace QApp.Web.Controllers {
     public class AuthController : Controller {
 
         private static SemaphoreSlim bruteForceLock = new SemaphoreSlim(1, 1);

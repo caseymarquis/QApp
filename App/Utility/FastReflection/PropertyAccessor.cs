@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 using System.Reflection;
 
-namespace AppNS
+namespace QApp
 {
     public class PropertyAccessor
     {

@@ -1,4 +1,4 @@
-﻿using AppNS.Database.Models;
+﻿using QApp.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Nito.AsyncEx;
 using System;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AppNS.Database {
+namespace QApp.Database {
     public partial class AppDbContext : DbContext {
         public static readonly DbConnectionSettings DbConnectionSettings = new DbConnectionSettings();
         private static AsyncReaderWriterLock sqliteLock = new AsyncReaderWriterLock();

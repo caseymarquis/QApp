@@ -1,9 +1,9 @@
-﻿using AppNS.Database.Models;
+﻿using QApp.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AppNS.Web.Models
+namespace QApp.Web.Models
 {
     public class Web_User
     {

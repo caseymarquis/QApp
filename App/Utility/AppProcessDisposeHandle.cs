@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppNS.Utility {
+namespace QApp.Utility {
     public class AppProcessDisposeHandle {
         Func<Task> actuallyDisposeProcess;
         private AppProcess process; //This is really just here for debugging. It's not used for anything.

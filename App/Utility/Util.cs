@@ -10,9 +10,9 @@ using System.Collections.ObjectModel;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using AppNS.Processes;
+using QApp.Processes;
 
-namespace AppNS {
+namespace QApp {
     public static class Util {
         public static Logs_WriteToDisk Log = new Logs_WriteToDisk();
 

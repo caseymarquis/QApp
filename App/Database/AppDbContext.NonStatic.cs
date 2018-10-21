@@ -1,4 +1,4 @@
-﻿using AppNS.Database.Models;
+﻿using QApp.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppNS.Database {
+namespace QApp.Database {
     public partial class AppDbContext : DbContext {
         /// <summary>
         /// Don't use this directly!

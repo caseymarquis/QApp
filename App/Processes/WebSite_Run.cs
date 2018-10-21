@@ -1,4 +1,4 @@
-﻿using AppNS.Web;
+﻿using QApp.Web;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AppNS.Processes {
+namespace QApp.Processes {
     public class WebSite_Run : AppProcess {
         public override string ProcessName => nameof(WebSite_Run);
         protected override TimeSpan RunDelay => new TimeSpan(0, 0, 30);

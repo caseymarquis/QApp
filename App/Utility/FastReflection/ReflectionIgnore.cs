@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppNS
+namespace QApp
 {
     [System.AttributeUsage(System.AttributeTargets.Property)]
     public class ReflectionIgnore : System.Attribute

@@ -1,6 +1,6 @@
-﻿using AppNS.Database.Models;
-using AppNS.Web;
-using AppNS.Web.Models;
+﻿using QApp.Database.Models;
+using QApp.Web;
+using QApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppNS.Web.Controllers {
+namespace QApp.Web.Controllers {
     public class UserController : Controller {
         /// <summary>
         /// Returns a list of the existing users within the system.

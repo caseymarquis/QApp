@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppNS.Database {
+namespace QApp.Database {
     public class DbConnectionSettings {
         private string storedConnectionString = null;
         private object lockEverything = new object();

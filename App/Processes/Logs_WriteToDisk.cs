@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppNS.Processes {
+namespace QApp.Processes {
     public class Logs_WriteToDisk : AppProcess {
         public override string ProcessName => "Logger";
         protected override TimeSpan RunDelay => new TimeSpan(0, 0, 15);

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AppNS.Utility;
-using AppNS.Processes;
-using AppNS.Database;
+using QApp.Utility;
+using QApp.Processes;
+using QApp.Database;
 
-namespace AppNS {
+namespace QApp {
     public class App {
         public static string AppName { get; set; } = "QApp";
         public static bool AppIsSqlite { get; set; } = true;
