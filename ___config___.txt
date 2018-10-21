@@ -8,7 +8,7 @@ AppName=QApp
 UseSqlite=true
 
 #If true, then a Windows service will be installed on release build of AppFramework
-InstallWindowsService=true
+InstallWindowsService=false
 
 #The local url that the application will host its webservice on:
 LocalUrl=http://0.0.0.0:5000/
