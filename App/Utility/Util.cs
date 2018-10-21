@@ -38,6 +38,10 @@ namespace QApp {
             return null;
         }
 
+        public static void LaunchProcessWindows(string fileName, string user, params string[] args) {
+            ProcessLauncher.LaunchProcess(fileName, args ?? new string[0], user);
+        }
+
         public static async Task WaitAsync(this Task userTask, TimeSpan timeout, CancellationToken? cToken = null, TimeSpan? waitInterval = null) {
             await Util.WaitAsync(Task.Run(async () => {
                 await userTask;
