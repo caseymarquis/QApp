@@ -19,7 +19,7 @@ namespace QApp.Database {
             var builder = new DbContextOptionsBuilder<AppDbContext>() {
                 
             };
-            if (App.AppIsSqlite) {
+            if (App.Config.UseSqlite) {
                 builder.UseSqlite(connectionString);
             }
             else {

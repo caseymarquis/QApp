@@ -1,0 +1,14 @@
+#AppName Changes a number of things.
+# 1. Where app data is stored (OSCommonAppData/AppName)
+# 2. The name of the service or daemon which is installed (AppName).
+# 3. After Framework build, the Windows release build files matching (AppFramework.*) will be changed to (AppName.*).
+AppName=QApp
+
+#If true, then a Sqlite database will be used. Using another type of database is more complex, and you should probably write your own custom code for it.
+UseSqlite=true
+
+#If true, then a Windows service will be installed on release build of AppFramework
+InstallWindowsService=true
+
+#The local url that the application will host its webservice on:
+LocalUrl=http://0.0.0.0:5000/

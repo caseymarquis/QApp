@@ -25,7 +25,7 @@ namespace QApp.Processes {
         protected async override Task OnInit() {
             //Generally, C:\ProgramData
             logDir = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            logDir = Path.Combine(logDir, App.AppName, "Logs");
+            logDir = Path.Combine(logDir, App.Config.AppName, "Logs");
             await Task.FromResult(0);
         }
 

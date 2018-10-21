@@ -5,12 +5,30 @@ using System.Threading.Tasks;
 using QApp.Utility;
 using QApp.Processes;
 using QApp.Database;
+using System.IO;
+using System.Reflection;
 
 namespace QApp {
     public class App {
-        public static string AppName { get; set; } = "QApp";
-        public static bool AppIsSqlite { get; set; } = true;
-        public static string AppLocalUrl { get; set; } = "http://0.0.0.0:5000/";
+
+        private static string getConfigPath() {
+            string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            Directory.SetCurrentDirectory(exeDir);
+            var di = new DirectoryInfo("./");
+            var startDiPath = di.FullName;
+            while (true) {
+                var configFile = di.GetFiles("___config___.txt").FirstOrDefault();
+                if (configFile != null) {
+                    return configFile.FullName;
+                }
+                di = di.Parent;
+                if (di == null) {
+                    throw new InvalidOperationException("No ___config___.txt found. Start dir: " + startDiPath);
+                }
+            }
+        }
+
+        public static AppConfig Config = new AppConfig(getConfigPath());
 
         private bool __running__ = false;
         private object lockRunning = new object();

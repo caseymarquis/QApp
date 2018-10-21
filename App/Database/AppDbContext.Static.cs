@@ -16,7 +16,7 @@ namespace QApp.Database {
         public static async Task<T> WithContext<T>(Func<AppDbContext, Task<T>> getSomething, bool isWrite = true) {
             var connectionString = DbConnectionSettings.ConnectionString;
             IDisposable lockHandle = null;
-            if (App.AppIsSqlite) {
+            if (App.Config.UseSqlite) {
                 lockHandle = await (isWrite ? sqliteLock.WriterLockAsync() : sqliteLock.ReaderLockAsync());
             }
             try {

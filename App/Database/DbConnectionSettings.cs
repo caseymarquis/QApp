@@ -24,7 +24,7 @@ namespace QApp.Database {
 
         public string UpdateConnectionString() {
             lock (lockEverything) {
-                var isSqlite = App.AppIsSqlite; //Change to use SQL Server instead. Can modify the below if you need something different.
+                var isSqlite = App.Config.UseSqlite; //Change to use SQL Server instead. Can modify the below if you need something different.
 
                 string gev(string varName) {
                     return Environment.GetEnvironmentVariable(varName);
@@ -35,14 +35,14 @@ namespace QApp.Database {
                     //Using a connection string from a file:
                     var devCSFilePath = Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-                        App.AppName, "db.txt"); //Set local connection string file here.
+                        App.Config.AppName, "db.txt"); //Set local connection string file here.
                     new FileInfo(devCSFilePath).Directory.Create();
                     if (!File.Exists(devCSFilePath)) {
                         if (isSqlite) {
                             File.WriteAllText(devCSFilePath, "Filename=" + Path.Combine(new FileInfo(devCSFilePath).DirectoryName, "db.sqlite"));
                         }
                         else {
-                            File.WriteAllText(devCSFilePath, $"Data Source =.\\ESR; Initial Catalog = {App.AppName}; Integrated Security = False; User ID = sa; Password = Aa1!0c8335fd-dfd2-48bf-96de-f340b80747ef; MultipleActiveResultSets = True");
+                            File.WriteAllText(devCSFilePath, $"Data Source =.\\ESR; Initial Catalog = {App.Config.AppName}; Integrated Security = False; User ID = sa; Password = Aa1!0c8335fd-dfd2-48bf-96de-f340b80747ef; MultipleActiveResultSets = True");
                         }
                     }
                     cs = getConnectionStringFromFile(devCSFilePath);
