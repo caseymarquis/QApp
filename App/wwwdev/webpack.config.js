@@ -33,7 +33,7 @@ if (isDevServer) {
 }
 
 //Set mode specific items:
-var outputDirectory = isDevServer ? './app/_dev-server' : '../site-root';
+var outputDirectory = isDevServer ? './app/_dev-server' : '../wwwroot';
 
 //Main config:
 module.exports =
