@@ -11,10 +11,11 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using QApp.Processes;
+using KC.NanoProcesses;
 
 namespace QApp {
     public static class Util {
-        public static Logs_WriteToDisk Log = new Logs_WriteToDisk();
+        public static NPStandardLogger Log;
 
         /// <summary>
         /// Because SQL Server has a limited date range.

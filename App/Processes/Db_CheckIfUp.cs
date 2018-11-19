@@ -6,9 +6,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KC.NanoProcesses;
 
 namespace QApp.Processes {
-    public class Db_CheckIfUp : AppProcess {
+
+    [NanoDI]
+    public class Db_CheckIfUp : NanoProcess {
         object lockEverything = new object();
         private bool m_DbIsUp;
         public bool DbIsUp {
@@ -41,15 +44,15 @@ namespace QApp.Processes {
 
         protected override TimeSpan RunDelay => new TimeSpan(0, 0, 1);
 
-        protected override Task OnDispose() {
+        protected override Task OnDispose(NpUtil util) {
             return Task.FromResult(0);
         }
 
-        protected override Task OnInit() {
+        protected override Task OnInit(NpUtil util) {
             return Task.FromResult(0);
         }
 
-        protected override async Task OnRun() {
+        protected override async Task OnRun(NpUtil util) {
             await UpdateAndReturnIfDbIsUp();
         }
     }
