@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  appcore:
+    image: ${DOCKER_REGISTRY}appcore
+    build:
+      context: .
+      dockerfile: AppCore/Dockerfile
