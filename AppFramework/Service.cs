@@ -62,7 +62,7 @@ namespace AppFramework {
         protected override void OnStop() {
             base.OnStop();
             log("Service-OnStop");
-            app.ShutDown();
+            app.Dispose();
             //Give the app up to 5 seconds to shut down.
             //This is coincidentally the default amount of time windows gives us
             //when the PC is rebooting, so this can't go any higher.
@@ -72,7 +72,7 @@ namespace AppFramework {
         protected override void OnShutdown() {
             base.OnShutdown();
             log("Service-OnStop");
-            app.ShutDown();
+            app.Dispose();
             //Give the app up to 5 seconds to shut down.
             //This is coincidentally the default amount of time windows gives us
             //when the PC is rebooting, so this can't go any higher.
