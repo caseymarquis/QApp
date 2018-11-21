@@ -42,13 +42,6 @@ namespace AppFramework {
             app = new App();
         }
 
-        private void log(string logName) {
-            Util.Log.Error(logName, logName, logName);
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            Util.Log.Run();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-        }
-
         protected override void OnStart(string[] args) {
             base.OnStart(args);
 
@@ -61,7 +54,6 @@ namespace AppFramework {
 
         protected override void OnStop() {
             base.OnStop();
-            log("Service-OnStop");
             app.Dispose();
             //Give the app up to 5 seconds to shut down.
             //This is coincidentally the default amount of time windows gives us
@@ -71,7 +63,6 @@ namespace AppFramework {
 
         protected override void OnShutdown() {
             base.OnShutdown();
-            log("Service-OnStop");
             app.Dispose();
             //Give the app up to 5 seconds to shut down.
             //This is coincidentally the default amount of time windows gives us
