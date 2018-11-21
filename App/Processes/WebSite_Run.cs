@@ -27,7 +27,7 @@ namespace QApp.Processes {
 
             host.UseContentRoot(contentRoot)
             .UseStartup<AppWebService>()
-            .UseUrls(App.Config.LocalUrl) //Use a reverse proxy to get this to port 443 with SSL.
+            .UseUrls(App.Config.AppUrl) //Use a reverse proxy to get this to port 443 with SSL.
             .Build()
             .RunAsync(cToken);
             return Task.FromResult(0);

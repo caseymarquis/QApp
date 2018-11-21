@@ -1,4 +1,5 @@
-﻿using QApp.Database.Models;
+﻿using KC.BaseDb;
+using QApp.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +20,7 @@ namespace QApp.Database.Models {
 
         public string Name { get; set; }
         public string SessionToken { get; set; }
-        public DateTime SessionTokenExpiresUtc { get; set; } = Util.InitDateTime;
+        public DateTime SessionTokenExpiresUtc { get; set; } = KC.BaseDb.Util.InitDateTime;
         public Guid PasswordSalt { get; set; }
 
         public bool IsAdmin { get; set; }
