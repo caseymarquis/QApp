@@ -625,13 +625,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TheServiceInstaller.cs">
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -11,6 +11,7 @@ using KC.InstallServiceNS;
 using QApp;
 
 namespace AppFramework {
+    [System.ComponentModel.DesignerCategory("")]
     public class Service : ServiceBase {
 
         static void Main(string[] args) {
@@ -74,6 +75,7 @@ namespace AppFramework {
 
     }
 
+    [System.ComponentModel.DesignerCategory("")]
     [RunInstaller(true)]
     public class TheServiceInstaller : Installer {
         public TheServiceInstaller() {
