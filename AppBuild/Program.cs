@@ -54,8 +54,6 @@ namespace ServiceInstallNS
             copyConfig(Path.Combine(binFramework, confFileName));
             copyConfig(Path.Combine(binFramework, confFileName));
 
-            var config = new AppConfig(confFilePath);
-
             void copyConfig(string toPath) {
                 if (new FileInfo(toPath).Directory.Exists) {
                     File.Copy(confFilePath, toPath, true);
@@ -111,32 +109,13 @@ namespace ServiceInstallNS
             }
 
             if (isFramework) {
-                copyFiles(binFramework, false, true);
+                copyFiles(binFramework);
             }
             if (isCore) {
-                copyFiles(binCore, false, false);
+                copyFiles(binCore);
             }
 
-            if (isFramework && config.InstallWindowsService) {
-                installService(binFramework, windowsServiceOutputDirectory);
-            }
-
-            void copyFiles(string bin, bool zip, bool renameToAppName) {
-                if (renameToAppName) {
-                    var binDir = new DirectoryInfo(bin);
-                    foreach (var fi in binDir.GetFiles()) {
-                        if (fi.Name.Contains("AppFramework.")) {
-                            //Not sure if I want to do this for the AppCore build...
-                            var newPath = fi.FullName
-                                .Replace("AppFramework.", config.AppName + ".")
-                                .Replace("AppCore.", config.AppName + ".");
-                            File.Copy(fi.FullName, newPath, true);
-                            Thread.Sleep(10);
-                            fi.Delete();
-                        }
-                    }
-                }
-
+            void copyFiles(string bin) {
                 log("copy webpack output to bin");
                 var oldSiteRoot = new DirectoryInfo(Path.Combine(bin, "wwwroot"));
                 if (oldSiteRoot.Exists) {
@@ -163,63 +142,6 @@ namespace ServiceInstallNS
                 
             }
 
-            void installService(string binDir, string serviceDir) {
-                var binExe = Path.Combine(binDir, $"{config.AppName}.exe");
-                var notYetRenamedExeProc = new ProcessStartInfo() {
-                    Arguments = "/s",
-                    FileName = binExe,
-                    WorkingDirectory = binDir,
-                };
-                Process.Start(notYetRenamedExeProc).WaitForExit();
-
-                try {
-                    copyDir(new DirectoryInfo(binDir), new DirectoryInfo(serviceDir));
-                }
-                catch (Exception ex) {
-                    Console.WriteLine($"General failure copying service-install directories: {ex.Message}");
-                    return;
-                }
-
-                void copyDir(DirectoryInfo fromDir, DirectoryInfo toDir) {
-                    try {
-                        if (!toDir.Exists) {
-                            toDir.Create();
-                        }
-                    }
-                    catch (Exception ex) {
-                        Console.WriteLine($"Failed to create service-install directory {toDir.FullName}: {ex.Message}");
-                        return;
-                    }
-                    foreach (var file in fromDir.GetFiles()) {
-                        try {
-                            for (int i = 0; i < 4; i++) {
-                                try {
-                                    File.Copy(file.FullName, Path.Combine(toDir.FullName, file.Name), true);
-                                    break;
-                                }
-                                catch (FileLoadException) {
-                                    Console.WriteLine($"File Copy Failed {i}: {file.Name}");
-                                    Thread.Sleep(1000);
-                                }
-                            }
-                            File.Copy(file.FullName, Path.Combine(toDir.FullName, file.Name), true);
-                        }
-                        catch (Exception ex) {
-                            Console.WriteLine($"Failed to copy service-install file {file.Name}: {ex.Message}");
-                        }
-                    }
-                    foreach (var subDir in fromDir.GetDirectories()) {
-                        copyDir(subDir, new DirectoryInfo(Path.Combine(toDir.FullName, subDir.Name)));
-                    }
-                }
-
-                var serviceInstallProcInfo = new ProcessStartInfo() {
-                    Arguments = "/i",
-                    FileName = Path.Combine(serviceDir, $"{config.AppName}.exe"),
-                    WorkingDirectory = serviceDir,
-                };
-                Process.Start(serviceInstallProcInfo).WaitForExit();
-            }
         }
             
     }
