@@ -12,7 +12,7 @@ using QApp;
 
 namespace AppFramework {
     [System.ComponentModel.DesignerCategory("")]
-    public class Service : ServiceBase {
+    public class Program : ServiceBase {
 
         static void Main(string[] args) {
             try {
@@ -29,7 +29,7 @@ namespace AppFramework {
                     app.Run().Wait();
                 }
                 else {
-                    ServiceBase.Run(new Service());
+                    ServiceBase.Run(new Program());
                 }
             }
             catch (Exception ex) {
@@ -38,7 +38,7 @@ namespace AppFramework {
         }
 
         App app;
-        public Service() {
+        public Program() {
             this.CanHandlePowerEvent = false;
             this.CanStop = true;
             this.ServiceName = App.Config.AppName;
