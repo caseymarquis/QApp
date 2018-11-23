@@ -5,8 +5,8 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using KC.InstallServiceNS;
 using QApp;
-using ServiceInstallNS;
 
 namespace AppFramework {
     public class Service : ServiceBase {
@@ -14,11 +14,11 @@ namespace AppFramework {
         static void Main(string[] args) {
             try {
                 if (args != null && args.Any(x => x == "/i")) {
-                    new AppServiceInstaller().Install();
+                    InstallService.Install(App.Config.AppName);
                     return;
                 }
                 if (args != null && args.Any(x => x == "/s")) {
-                    new AppServiceInstaller().TryStopService();
+                    InstallService.TryStopService(App.Config.AppName);
                     return;
                 }
                 if (Environment.UserInteractive) {
