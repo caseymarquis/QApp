@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration.Install;
 using System.IO;
 using System.Linq;
 using System.ServiceProcess;
@@ -70,5 +72,21 @@ namespace AppFramework {
             System.Threading.Thread.Sleep(5000);
         }
 
+    }
+
+    [RunInstaller(true)]
+    public class TheServiceInstaller : Installer {
+        public TheServiceInstaller() {
+            var serviceProcessInstaller = new ServiceProcessInstaller();
+            var serviceInstaller = new ServiceInstaller();
+            serviceProcessInstaller.Account = ServiceAccount.LocalSystem;
+            serviceInstaller.DisplayName = App.Config.AppName;
+            serviceInstaller.Description = App.Config.AppName;
+            serviceInstaller.StartType = ServiceStartMode.Automatic;
+            serviceInstaller.DelayedAutoStart = true;
+            serviceInstaller.ServiceName = App.Config.AppName;
+            this.Installers.Add(serviceProcessInstaller);
+            this.Installers.Add(serviceInstaller);
+        }
     }
 }
