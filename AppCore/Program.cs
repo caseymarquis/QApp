@@ -8,7 +8,7 @@ namespace AppCore
     {
         public static async Task Main(string[] args) {
             var app = new App();
-            await app.Run();
+            await app.Run(logToDisk: false);
         }
     }
 }

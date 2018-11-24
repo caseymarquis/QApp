@@ -50,8 +50,9 @@ namespace QApp {
             procManager = new NanoProcessManager(Config.AppLogDirPath);
         }
 
-        public async Task Run() {
+        public async Task Run(bool logToDisk = true) {
             Util.Log = procManager.StandardLog;
+            Util.Log.LogToDisk = logToDisk;
             await procManager.Run(async (util) => {
                 var criticalBootPassed = false;
                 var firstRun = true;
@@ -101,6 +102,5 @@ namespace QApp {
         public void Dispose() {
             procManager.Dispose();
         }
-
     }
 }
