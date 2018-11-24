@@ -12,10 +12,6 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if '$(Configuration)' == 'Release' cd $(projectdir)..\AppBuild&#xD;&#xA;if '$(Configuration)' == 'Release' dotnet run &quot;$(projectdir)$(outdir)&quot;" />
-  </Target>
-
   <ItemGroup>
     <ProjectReference Include="..\App\App.csproj" />
   </ItemGroup>

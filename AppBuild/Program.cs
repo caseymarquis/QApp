@@ -128,18 +128,6 @@ namespace ServiceInstallNS
                         file.CopyTo(Path.Combine(oldSiteRoot.FullName, file.Name));
                     }
                 }
-
-                if (zip) {
-                    log("delete old zip file");
-                    var zipFile = new FileInfo(Path.Combine(solutionDir.FullName, "app.zip"));
-                    if (zipFile.Exists) {
-                        zipFile.Delete();
-                    }
-
-                    log("create new zip file");
-                    ZipFile.CreateFromDirectory(bin, zipFile.FullName);
-                }
-                
             }
 
         }
