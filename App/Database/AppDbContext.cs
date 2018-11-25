@@ -28,6 +28,9 @@ namespace QApp.Database {
                         Name = "Casey Marquis",
                         Email = "admin",
                         ResetPassword = true,
+                        PasswordHash = Util.GetCryptoGuid().ToString(),
+                        PasswordSalt = Util.GetCryptoGuid(),
+                        SessionToken = Util.GetCryptoGuid().ToString(),
                     });
                 }
 
