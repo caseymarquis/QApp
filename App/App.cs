@@ -23,9 +23,9 @@ namespace QApp {
                 BaseDbType = BaseDbType.Postgres;
                 ConnectionStringFromEnvironment = "DATABASE_URL";
                 ConnectionStringFromFilePath = Path.Combine(AppDataDirPath, "db.txt");
-                ConnectionStringHardCoded = $"Data Source =.\\ESR; Initial Catalog = QAppExample; Integrated Security = False; User ID = euler; Password = 3.14159265358979323846264338327; MultipleActiveResultSets = True";
+                ConnectionStringHardCoded = $"UserID=euler;Password=3.14159265358979323846264338327;Host=localhost;Port=5432;Database={AppName};";
                 CustomDbBuilderSetup = (builder) => {
-                    //If you need this, you might be better off not using the KC.BaseDb library.
+
                 };
             }
 
