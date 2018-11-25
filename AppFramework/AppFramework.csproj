@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="KC.BaseDb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KC.BaseDb.1.0.1\lib\netstandard2.0\KC.BaseDb.dll</HintPath>
+      <HintPath>..\packages\KC.BaseDb.1.0.2\lib\netstandard2.0\KC.BaseDb.dll</HintPath>
     </Reference>
     <Reference Include="KC.InstallService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\KC.InstallService.1.0.1\lib\net46\KC.InstallService.dll</HintPath>
