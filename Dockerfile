@@ -19,4 +19,9 @@ FROM microsoft/dotnet:2.1-runtime AS final
 WORKDIR /app
 COPY --from=build /output ./
 Copy --from=www /wwwroot ./wwwroot/
-ENTRYPOINT ["dotnet", "AppCore.dll"]
+
+#Normal entrypoint:
+#ENTRYPOINT ["dotnet", "AppCore.dll"]
+
+#Heroku entrypoint:
+CMD DATABASE_URL=$DATABASE_URL ASPNETCORE_URLS=http://*:$PORT dotnet AppCore.dll
