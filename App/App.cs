@@ -19,9 +19,9 @@ namespace QApp {
                 AppName = "QAppExample";
                 AppDataDirPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), AppName);
                 AppLogDirPath = Path.Combine(AppDataDirPath, "logs");
-                BaseDbType = BaseDbType.SqlServer;
-                ConnectionStringFromEnvironment = "Data Source =$|-DBHOST-$|; Initial Catalog = $|-DBNAME-$|; Integrated Security = False; User ID = $|-DBUSER-$|; Password = $|-DBPASS-$|; MultipleActiveResultSets = True";
                 AppUrl = Environment.GetEnvironmentVariable("ASPNETCORE_URLS") ?? @"http://0.0.0.0:5000/";
+                BaseDbType = BaseDbType.Postgres;
+                ConnectionStringFromEnvironment = "DATABASE_URL";
                 ConnectionStringFromFilePath = Path.Combine(AppDataDirPath, "db.txt");
                 ConnectionStringHardCoded = $"Data Source =.\\ESR; Initial Catalog = QAppExample; Integrated Security = False; User ID = euler; Password = 3.14159265358979323846264338327; MultipleActiveResultSets = True";
                 CustomDbBuilderSetup = (builder) => {
