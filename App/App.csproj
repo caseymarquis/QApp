@@ -34,7 +34,7 @@
     <None Remove="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="KC.BaseDb" Version="1.0.3" />
+    <PackageReference Include="KC.BaseDb" Version="1.0.4" />
     <PackageReference Include="kc.nanoprocesses" Version="1.0.6" />
     <PackageReference Include="kc.ricochet" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.4" />
