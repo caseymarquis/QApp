@@ -35,7 +35,6 @@ export default {
         };
     },
     watch: {
-        '$route': 'updateRouteFromStore',
     },
     computed: {
         visible() {

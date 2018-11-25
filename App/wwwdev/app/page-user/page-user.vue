@@ -32,7 +32,7 @@ export default {
         },
     },
     components: {
-        ListEditor, EntUser
+        ListEditor, AppUser
     }
 };
 </script>

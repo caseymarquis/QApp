@@ -24,35 +24,37 @@
         </div>
         <div class="col-sm-6 hidden-xs" style="border-right:solid">
             <div class="row" style="border-bottom:solid">
-                <div class="col-md-6">
-                    <h2 class="home-market-title">Stuff <span class="glyphicon glyphicon-search"></span></h2>
-                    <p>
-                        Stuff
+                <div class="col-md-12">
+                    <h2 class="home-market-title">Welcome to some app. <span class="glyphicon glyphicon-glass"></span></h2>
+                    <p class="home-market-text">
+                        This is where some stuff about the app could be written.
                     </p>
                 </div>
-                <div class="col-md-6 hidden-sm hidden-xs">
+                <div class="col-md-6 hidden-sm hidden-xs hidden">
                     <!--img :src="imgTablet" class="center-block tablet-img" style="width: 222px; height: 166px;" align="middle"/-->
                 </div>
             </div>
             <div class="row" style="border-bottom:solid">
-                <div class="col-md-6">
-                    <h2 class="home-market-title">About <span class="glyphicon glyphicon-tasks"></span></h2>
-                    <p>
-                        About
+                <div class="col-md-12">
+                    <h2 class="home-market-title">More stuff! <span class="glyphicon glyphicon-time"></span></h2>
+                    <p class="home-market-text">
+                        Even more could be written here! Untold troves of information!
                     </p>
                 </div>
-                <div class="col-md-6 hidden-sm hidden-xs">
+                <div class="col-md-6 hidden-sm hidden-xs hidden">
                     <!--img :src="imgSched" class="center-block" style="width: 100%" /-->
                 </div>
             </div>
             <div class="row" style="">
-                <div class="col-md-6">
-                    <h2 class="home-market-title">App <span class="glyphicon glyphicon-wrench"></span></h2>
-                    <p>
-                        App
+                <div class="col-md-12">
+                    <h2 class="home-market-title">The rule of three. <span class="glyphicon glyphicon-trash"></span></h2>
+                    <p class="home-market-text">
+                        The rule of three is a writing principle that suggests that a trio of events or characters is more humorous,
+                        satisfying, or effective than other numbers in execution of the story and engaging the reader.
+                        I didn't make the rules.
                     </p>
                 </div>
-                <div class="col-md-6 hidden-sm hidden-xs">
+                <div class="col-md-6 hidden-sm hidden-xs hidden">
                     <!--img :src="imgBarChart" class="center-block bar-chart-img" style="width: 222px; height: 166px;"/-->
                 </div>
             </div>
@@ -126,6 +128,10 @@ export default {
   font-size: x-large;
   text-align: center;
   text-shadow: #aaa 2px 2px 2px;
+}
+
+.home-market-text {
+    text-align: center;
 }
 
 .jumbo-title-div {

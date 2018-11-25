@@ -16,6 +16,7 @@
                     <ul class="nav navbar-nav">
                         <li>
                             <router-link to="/" style="padding-top: 4px; padding-bottom: 0; padding-left:0; padding-right: 0;">
+                                <h1>Logo</h1>
                                 <!--img :src="imgLogo" class="center-block visible-lg" style="height: 70px; margin-left: 0;" /-->
                                 <!--img :src="imgLogo" class="center-block visible-md visible-sm" style="max-height: 35px; margin-left: 0; margin-top: 15px;" /-->
                             </router-link>
