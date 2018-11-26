@@ -1,2 +1,2 @@
-cd ./Ent_General/site-dev
+cd ./App/wwwdev
 npm install
