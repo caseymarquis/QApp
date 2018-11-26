@@ -5,7 +5,10 @@ call start _start-dev-server.bat
 
 %SystemRoot%\explorer.exe "vscode://file/%~dp0App/wwwdev/"
 
-call :startcmd ./QApp.sln
+FOR %%F IN (.\*.sln) DO (
+ call :startcmd %%F
+)
+
 call :startcmd "C:\Program Files\AutoHotkey\AutoHotkey.exe"
 call :startcmd "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "http://localhost:8080/"
 call :startcmd "github desktop.lnk"
