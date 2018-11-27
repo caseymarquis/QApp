@@ -57,3 +57,4 @@ end up with two databases called 'QAppExample'.
 
 1. Follow the instructions for dotnet core, minus installing dotnet core.
 2. Switch the startup app to AppFramework.
+3. If you launch AppFramework.exe with argument "/i", it will install itself as a service. (You'll need an elevated command prompt.)
