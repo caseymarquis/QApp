@@ -45,6 +45,7 @@ end up with two databases called 'QAppExample'.
 1. Run 'heroku login' if you haven't already.
 2. Navigate to the QApp solution folder in a terminal of some kind.
 3. Run 'heroku create heroku-project-name'.
+3. Run 'heroku container:login'
 3. Run 'heroku addons:create heroku-postgresql:hobby-dev'. This creates a free (limited) database for your Heroku app.
 4. Run 'heroku container:push web'. This could take a while the first time.
 5. Run 'heroku container:release web'
