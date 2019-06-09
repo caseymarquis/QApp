@@ -1,6 +1,6 @@
 <template>
     <div class="the-row">
-        <div class="progress p-outer">
+        <div class="progress p-outer hidden-sm hidden-xs">
             <div class="bar-text">
                 <slot></slot><span v-text="theText"></span>
             </div>
@@ -8,6 +8,9 @@
             </div>
             <div v-if="extra" class="progress-bar progress-bar-striped progress-bar-primary" role="progressbar" :style="extraStyle" :no-text="true">
             </div>
+        </div>
+        <div class="hidden-md hidden-lg">
+                <slot></slot><span v-text="theText"></span>
         </div>
     </div>
 </template>

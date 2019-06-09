@@ -18,6 +18,6 @@ export default {
 <style scoped>
     .acd {
         position: absolute;
-        left: -200%;
+        left: -2000%;
     }
 </style>

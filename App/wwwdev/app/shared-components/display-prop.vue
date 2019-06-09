@@ -8,9 +8,11 @@
                             <div class="col-xs-12">
                                 <button class="help-btn btn btn-xs btn-info pull-right" v-on:click="showHelp = !showHelp"><span class="glyphicon glyphicon-question-sign"></span></button>
                                 <label v-text="title + ':'"></label>
-                                <a v-if="!showHidden">
-                                    <span v-if="type==='password'" v-on:click="showHidden = true">Click to Reset</span>
-                                </a>
+                                <template v-if="state === 'edit' || !passwordResetOnEdit">
+                                    <a v-if="!showHidden">
+                                        <span v-if="type==='password'" v-on:click="showHidden = true">Click to Reset</span>
+                                    </a>
+                                </template>
                             </div>
                         </div>
                         <div class="row" v-if="showHidden">
@@ -40,11 +42,17 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <label v-text="title + ':'"></label>
-                                <span v-if="state !== 'edit'" v-text="getDisplayText"></span>
+                                <span v-if="state !== 'edit' && type !== 'custom'" v-text="getDisplayText"></span>
 
                                 <input v-if="state === 'edit' && type==='bool'" type="checkbox" class="settings-checkbox" style="margin-left: 10px; margin-right: 10px;" v-model="internalValue" />
 
                                 <button class="help-btn btn btn-xs btn-info pull-right" v-on:click="showHelp = !showHelp"><span class="glyphicon glyphicon-question-sign"></span></button>
+
+                                <slot name="display" v-if="state !== 'edit' && type === 'custom'">
+                                </slot>
+                                <button v-if="highlightText" v-on:click="showHighlightDescription = !showHighlightDescription" class="btn btn-sm btn-info btn-highlight">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                </button>
                             </div>
                         </div>
                         <div class="row" v-if="state === 'edit' && type !== 'bool'">
@@ -55,18 +63,24 @@
                                 <input v-else-if="type==='int'" type="number" step="1" class="form-control" v-model="internalValue" />
                                 <input v-else-if="type==='nat'" type="number" min="0" step="1" class="form-control" v-model="internalValue" />
                                 <input v-else-if="type==='float'" type="number" class="form-control" v-model="internalValue" />
-                                <input v-else-if="type==='clickToShow'" type="password" class="form-control" v-model="internalValue"/>
-                                <input v-else-if="type==='password'" type="password" class="form-control" v-model="internalValue"/>
+                                <input v-else-if="type==='clickToShow'" type="password" class="form-control wide-input" v-model="internalValue"/>
+                                <input v-else-if="type==='password'" type="password" class="form-control wide-input" v-model="internalValue"/>
                                 <date-time-picker v-else-if="type==='date'" v-model="asmoment"></date-time-picker>
-                                <input v-else type="text" class="form-control" v-model="internalValue"/>
+                                <input v-else-if="type!=='custom'" type="text" class="form-control wide-input" v-model="internalValue"/>
+                                <slot name="edit" v-else>
+                                </slot>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="well well-sm help-well" v-if="showHelp">
+        <div class="well well-sm help-well" v-if="shouldShow && showHelp">
             <slot></slot>
+        </div>
+        <div class="well well-sm help-well" v-if="shouldShow && showHighlightDescription">
+            <p v-text="highlightText">
+            </p>
         </div>
     </div>
 </template>
@@ -78,12 +92,13 @@ import moment from "moment";
 
 //https://stackoverflow.com/a/40915857/1109665 //Implementing your own v-model. :D
 export default {
-    props: ["value", "title", "state", "filter", "type", "options", "allowEmptyPassword"],
+    props: ["value", "title", "state", "filter", "type", "options", "allowEmptyPassword", "passwordResetOnEdit", "highlight"],
     data() {
         return {
             showHelp: false,
             internalValue: null,
-            showHidden: false
+            showHidden: false,
+            showHighlightDescription: false,
         };
     },
     created() {
@@ -116,6 +131,35 @@ export default {
                 return v.format('MM/DD/YY');
             }
             return v;
+        },
+        highlightText(){
+            if(this.highlight && this.highlight.filter){
+                let getMatch = () => {
+                    for(let i = 0; i<this.highlight.length; i++){
+                        let h = this.highlight[i];
+                        if(h.value && h.value.filter){
+                            let isMatch = h.value.some(x => x === this.internalValue);
+                            if(h.inverse && !isMatch){
+                                return h;
+                            }
+                            else if(!h.inverse && isMatch){
+                                return h;
+                            }
+                        }
+                        else if(h.inverse && h.value !== this.internalValue){
+                            return h;
+                        }
+                        else if(!h.inverse && h.value === this.internalValue){
+                            return h;
+                        }
+                    }
+                }
+                let match = getMatch();
+                if(match){
+                    return (match.text || "Not the standard value.");
+                }
+            }
+            return undefined;
         },
         shouldShow() {
             let f = this.filter;
@@ -160,6 +204,7 @@ export default {
         onConfirmPassword(newPassword) {
             this.showHidden = false;
             this.internalValue = newPassword;
+            this.$emit('confirm', newPassword);
         }
     },
     components: {
@@ -172,7 +217,6 @@ export default {
 .prop-set {
   padding-left: 10px;
   padding-top: 5px;
-  margin-top: 3px;
   border-top: solid;
   border-width: 2px;
 }
@@ -184,5 +228,13 @@ export default {
 
 .help-btn {
   margin-right: 5px;
+}
+
+.wide-input{
+    min-width: 50%;
+}
+
+.btn-highlight{
+    padding: 0 2px 0 2px;
 }
 </style>

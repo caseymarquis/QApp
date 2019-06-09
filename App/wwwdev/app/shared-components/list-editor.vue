@@ -5,6 +5,8 @@
         <div class="col-lg-10">
             <div class="row">
                 <div class="col-sm-6">
+                    <slot name="header">
+                    </slot>
                 </div>
                 <div class="col-sm-6">
                     <button v-if="showCreateNew" class="btn btn-success pull-right" v-on:click="$emit('createNew')">

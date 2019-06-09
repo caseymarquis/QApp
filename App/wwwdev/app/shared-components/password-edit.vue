@@ -1,5 +1,7 @@
 <template>
     <div>
+        <auto-complete-disabler>
+        </auto-complete-disabler>
         <div class="col-sm-1">
         </div>
         <div class="col-sm-10">
@@ -31,6 +33,8 @@
 </template>
 
 <script>
+import AutoCompleteDisabler from "./auto-complete-disabler.vue";
+
 export default {
     props: ["allowEmptyPassword"],
     data() {
@@ -67,6 +71,9 @@ export default {
                 return (p1 === p2 && p1 !== "");
             }
         },
+    },
+    components: {
+        AutoCompleteDisabler
     }
 }
 </script>

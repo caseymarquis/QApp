@@ -3,24 +3,29 @@
         <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-xs-9">
                         <slot name="title">
                             <h3 class="panel-title" style="margin-top: 7px;" v-text="name"></h3>
                         </slot>
                     </div>
-                    <div class="col-xs-4">
-                        <button v-if="state === 'awaitEdit' && !disableEdit" class="btn btn-warning pull-right" style="padding-top: 3px; padding-bottom: 3px;" v-on:click="$emit('edit')">Edit</button>
+                    <div class="col-xs-3">
+                        <div class="pull-right">
+                        <button v-if="state === 'awaitEdit' && !disableEdit" class="btn btn-warning" style="margin-left: 5px; padding-top: 3px; padding-bottom: 3px;" v-on:click="$emit('edit')">Edit</button>
+                        <button v-if="allowDelete === true" class="btn btn-danger" style="padding-top: 3px; padding-bottom: 3px;" v-on:click="$emit('delete')">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="panel-body" v-if="!(hideBody === true && state === 'awaitEdit')">
+            <div class="panel-body display-edit-body" v-if="!(hideBody === true && state === 'awaitEdit')">
                 <div v-if="state === 'load'">
                     Loading
                 </div>
                 <div v-else-if="state === 'save'">
                     Saving
                 </div>
-                <div v-else-if="state === 'edit'">
+                <div style="padding-top: 5px; padding-bottom: 5px;" v-else-if="state === 'edit'">
                     <button class="btn btn-info" v-on:click="$emit('discard')">Discard</button>
                     <button class="btn btn-success pull-right" v-on:click="$emit('save')">Save</button>
                 </div>
@@ -33,7 +38,7 @@
 
 <script>
 export default {
-    props: ["name", "state", "hideBody", "allowEdit"],
+    props: ["name", "state", "hideBody", "allowEdit", "allowDelete"],
     data() {
         return {
         }
@@ -41,10 +46,14 @@ export default {
     computed: {
         disableEdit() {
             return (this.allowEdit === false);
-        }
+        },
     }
 }
 </script>
 
 <style scoped>
+.display-edit-body{
+    padding-top: 0;
+    padding-bottom: 0;
+}
 </style>
