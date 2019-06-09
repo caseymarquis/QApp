@@ -144,7 +144,7 @@ module.exports =
                     exclude: /node_modules/,
                     use: [{
                         loader: 'babel-loader',
-                        options: {presets: ['latest']}
+                        options: {presets: ['@babel/preset-env']}
                     }]
                 },
                 { test: /\.vue$/, use: "vue-loader" },
