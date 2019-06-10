@@ -49,7 +49,7 @@ namespace QApp {
             if (!cToken.HasValue) {
                 cToken = CancellationToken.None;
             }
-            var stopAt = DateTime.UtcNow.Add(timeout);
+            var stopAt = DateTimeOffset.Now.Add(timeout);
             var finished = false;
             var success = false;
             var lockEverything = new object();
@@ -80,9 +80,9 @@ namespace QApp {
 
             //Wait for completion or timeout.
             while (true) {
-                var utcNow = DateTime.UtcNow;
+                var now = DateTimeOffset.Now;
                 lock (lockEverything) {
-                    if (utcNow > stopAt) {
+                    if (now > stopAt) {
                         lock (lockEverything) {
                             finished = true;
                         }
@@ -127,7 +127,7 @@ namespace QApp {
             var lockEverything = new object();
             var finished = false;
             Exception exOuter = null;
-            var timeoutQuit = DateTime.UtcNow.Add(timeout);
+            var timeoutQuit = DateTimeOffset.Now.Add(timeout);
             T result = default(T);
             var t = new Thread(()=> {
                 try {
@@ -163,7 +163,7 @@ namespace QApp {
                 if (cToken?.IsCancellationRequested ?? false) {
                     throw new TaskCanceledException("Task was cancelled.");
                 }
-                if (DateTime.UtcNow > timeoutQuit) {
+                if (DateTimeOffset.Now > timeoutQuit) {
                     throw new TimeoutException("Task timed out.");
                 }
             }

@@ -65,7 +65,7 @@ namespace QApp {
                     if (!firstRun) {
                         await Task.Delay(5000);
                     }
-                    util.UtcNow = DateTime.UtcNow;
+                    util.Now = DateTimeOffset.Now;
                     firstRun = false;
                     try {
                         //Needs to be removed if a custom logger is used.

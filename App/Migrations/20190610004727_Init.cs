@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace QApp.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,16 +13,16 @@ namespace QApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
-                    CreatedUtc = table.Column<DateTime>(nullable: false),
-                    ModifiedUtc = table.Column<DateTime>(nullable: false),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    CreatedUtc = table.Column<DateTimeOffset>(nullable: false),
+                    ModifiedUtc = table.Column<DateTimeOffset>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
                     Enabled = table.Column<bool>(nullable: false),
                     ResetPassword = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     SessionToken = table.Column<string>(nullable: true),
-                    SessionTokenExpiresUtc = table.Column<DateTime>(nullable: false),
+                    SessionTokenExpiresUtc = table.Column<DateTimeOffset>(nullable: false),
                     PasswordSalt = table.Column<Guid>(nullable: false),
                     IsAdmin = table.Column<bool>(nullable: false)
                 },

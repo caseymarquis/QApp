@@ -15,8 +15,8 @@ namespace QApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn)
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
+                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("QApp.Database.Models.User", b =>
@@ -24,7 +24,7 @@ namespace QApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedUtc");
+                    b.Property<DateTimeOffset>("CreatedUtc");
 
                     b.Property<string>("Email");
 
@@ -32,7 +32,7 @@ namespace QApp.Migrations
 
                     b.Property<bool>("IsAdmin");
 
-                    b.Property<DateTime>("ModifiedUtc");
+                    b.Property<DateTimeOffset>("ModifiedUtc");
 
                     b.Property<string>("Name");
 
@@ -44,7 +44,7 @@ namespace QApp.Migrations
 
                     b.Property<string>("SessionToken");
 
-                    b.Property<DateTime>("SessionTokenExpiresUtc");
+                    b.Property<DateTimeOffset>("SessionTokenExpiresUtc");
 
                     b.HasKey("Id");
 

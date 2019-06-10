@@ -65,8 +65,8 @@ namespace QApp.Web.Controllers {
                     return;
                 }
                 else {
-                    var utcNow = DateTime.UtcNow;
-                    if (user.SessionTokenExpiresUtc < utcNow || user.SessionToken == null) {
+                    var now = DateTimeOffset.Now;
+                    if (user.SessionTokenExpiresUtc < now || user.SessionToken == null) {
                         user.SessionToken = "";
                         var r = RandomNumberGenerator.Create();
                         for (var i = 0; i < 4; i++) {
@@ -78,7 +78,7 @@ namespace QApp.Web.Controllers {
                             }
                             user.SessionToken += num.ToString();
                         }
-                        user.SessionTokenExpiresUtc = utcNow.AddDays(30);
+                        user.SessionTokenExpiresUtc = now.AddDays(30);
                         await db.SaveChangesAsync();
                     }
                     ret.token = user.SessionToken;
@@ -102,14 +102,14 @@ namespace QApp.Web.Controllers {
             }
 
             return await AppDbContext.WithContext(async db => {
-                var utcNow = DateTime.UtcNow;
+                var now = DateTimeOffset.Now;
                 var user = await db.Users.Select(x => new {
                     name = x.Name,
                     token = x.SessionToken,
                     tokenExpires = x.SessionTokenExpiresUtc,
                     id = x.Id,
                     isAdmin = x.IsAdmin
-                }).FirstOrDefaultAsync(x => x.token == token && x.tokenExpires > utcNow);
+                }).FirstOrDefaultAsync(x => x.token == token && x.tokenExpires > now);
                 if (user == null) {
                     return null;
                 }

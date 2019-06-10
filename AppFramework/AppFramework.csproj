@@ -42,13 +42,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="KC.BaseDb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KC.BaseDb.1.0.4\lib\netstandard2.0\KC.BaseDb.dll</HintPath>
+      <HintPath>..\packages\KC.BaseDb.2.0.1\lib\netstandard2.0\KC.BaseDb.dll</HintPath>
     </Reference>
     <Reference Include="KC.InstallService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\KC.InstallService.1.0.2\lib\net46\KC.InstallService.dll</HintPath>
     </Reference>
     <Reference Include="KC.NanoProcesses, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KC.NanoProcesses.1.0.7\lib\netstandard2.0\KC.NanoProcesses.dll</HintPath>
+      <HintPath>..\packages\KC.NanoProcesses.2.0.0\lib\netstandard2.0\KC.NanoProcesses.dll</HintPath>
     </Reference>
     <Reference Include="KC.Ricochet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\KC.Ricochet.1.0.2\lib\netstandard2.0\KC.Ricochet.dll</HintPath>

@@ -20,7 +20,7 @@ namespace QApp.Database.Models {
 
         public string Name { get; set; }
         public string SessionToken { get; set; }
-        public DateTime SessionTokenExpiresUtc { get; set; } = KC.BaseDb.Util.InitDateTime;
+        public DateTimeOffset SessionTokenExpiresUtc { get; set; } = KC.BaseDb.Util.InitDateTime;
         public Guid PasswordSalt { get; set; }
 
         public bool IsAdmin { get; set; }

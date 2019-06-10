@@ -34,8 +34,8 @@
     <None Remove="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="KC.BaseDb" Version="1.0.4" />
-    <PackageReference Include="kc.nanoprocesses" Version="1.0.7" />
+    <PackageReference Include="KC.BaseDb" Version="2.0.1" />
+    <PackageReference Include="kc.nanoprocesses" Version="2.0.0" />
     <PackageReference Include="kc.ricochet" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
@@ -52,10 +52,6 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
