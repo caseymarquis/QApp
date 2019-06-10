@@ -15,7 +15,7 @@ let Env = {
     longAgo: new moment('10/20/1905'),
 }
 
-if (window.location.href.includes(":8080")) {
+if (window.location.href.includes(":808")) {
     //Means we're using webpack dev server:
     //TODO: Check if port 8080 has a test API function on it, if so then the user set the port to 8080.
     let host = window.location.hostname;
