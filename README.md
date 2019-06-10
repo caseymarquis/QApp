@@ -59,3 +59,7 @@ end up with two databases called 'QAppExample'.
 1. Follow the instructions for dotnet core, minus installing dotnet core.
 2. Switch the startup app to AppFramework.
 3. If you launch AppFramework.exe with argument "/i", it will install itself as a service. (You'll need an elevated command prompt.)
+
+## Database Migrations
+
+Migrations are a bit weird in the built in efcore database as they are contained in a dotnet standard library. To perform a migration, navigate to ./App, then run the command: `dotnet ef migrations add MigrationName -s ../AppCore`. This tells EfCore to build the dotnet core project in order create the migration files.
