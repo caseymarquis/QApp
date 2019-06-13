@@ -32,11 +32,19 @@ namespace QApp.Web
                 options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("::ffff:0.0.0.0"), 0));
             });
             services.AddMvc();
-            services.AddHsts(options => {
-                options.Preload = true;
-                options.IncludeSubDomains = true;
-                options.MaxAge = TimeSpan.FromDays(60);
-            });
+            if (!Debugger.IsAttached) {
+                services.AddHsts(options => {
+                    options.Preload = true;
+                    options.IncludeSubDomains = true;
+                    options.MaxAge = TimeSpan.FromDays(60);
+                });
+                services.AddHttpsRedirection(options =>
+                {
+                    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                    options.HttpsPort = 443;
+                });
+            }
+            
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new Info { Title = "QApp API", Version = "v1" });
             });
@@ -48,8 +56,8 @@ namespace QApp.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             if (!Debugger.IsAttached) {
                 app.UseForwardedHeaders();
-                app.UseHttpsRedirection();
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
             else {
                 app.UseDeveloperExceptionPage();
