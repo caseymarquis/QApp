@@ -82,25 +82,21 @@ module.exports =
         },
         module: {
             rules: [
-                { test: /\.scss$/, use: [
+                { test: /\.(scss)$/, use: [
                     { loader: "vue-style-loader"},
-                    { loader: "css-loader"},
-                    { 
-                        loader: "postcss-loader",
-                        options : {
-                            plugins: function() {
-                                return [require('autoprefixer')];
+                    { loader: 'css-loader' },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: function () {
+                                return [
+                                    require('precss'),
+                                    require('autoprefixer')
+                                ];
                             }
                         }
                     },
-                    { loader: "sass-loader" }]
-                },
-                { test: /\.less$/, use: [
-                    { loader: "style-loader"},
-                    { loader: "css-loader"},
-                    {
-                        loader: "less-loader",
-                    }]
+                    { loader: 'sass-loader' }]
                 },
                 { test: /\.css$/, use: [
                     { loader: "vue-style-loader"},

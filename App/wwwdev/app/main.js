@@ -2,7 +2,7 @@ import 'babel-polyfill';
 
 import 'jquery';
 import Bootstrap from 'bootstrap';
-import './less/bootswatch.less';
+import './scss/bootswatch.scss';
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
