@@ -1,10 +1,10 @@
 <template>
     <th v-on:click="sortByMe" style="cursor: pointer;">
-        <div :class="{'pull-right': pullRight}">
+        <div :class="{'float-right': pullRight}">
             <slot></slot>
-            <span v-if="sortDown" class="glyphicon glyphicon-chevron-down"></span>
-            <span v-else-if="sortUp" class="glyphicon glyphicon-chevron-up"></span>
-            <span v-else class="glyphicon glyphicon-sort"></span>
+            <fa-icon v-if="sortDown" icon="chevron-down"/>
+            <fa-icon v-else-if="sortUp" icon="chevron-up"/>
+            <fa-icon v-else icon="sort"/>
         </div>
     </th>
 </template>

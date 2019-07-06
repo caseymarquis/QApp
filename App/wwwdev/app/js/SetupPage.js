@@ -6,6 +6,7 @@ let SetupPage = {
         store.commit("setupSearch", { show: false });
         store.commit("setupSlide");
         store.commit("setPageTitle", newTitle);
+        store.commit("setPageFluid", false);
         return SetupPage;
     },
     search(vm, placeholder, text){
@@ -19,6 +20,9 @@ let SetupPage = {
             placeholder: placeholder,
         });
         return SetupPage;
+    },
+    fluid(){
+        store.commit("setPageFluid", true);
     },
 }
 

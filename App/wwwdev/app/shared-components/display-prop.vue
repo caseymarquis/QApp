@@ -1,86 +1,148 @@
 <template>
-    <div>
-        <div class="row prop-set" v-show="shouldShow">
-            <div class="col-xs-12">
-                <div class="form-inline">
-                    <div v-if="type==='password'">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <button class="help-btn btn btn-xs btn-info pull-right" v-on:click="showHelp = !showHelp"><span class="glyphicon glyphicon-question-sign"></span></button>
-                                <label v-text="title + ':'"></label>
-                                <template v-if="state === 'edit' || !passwordResetOnEdit">
-                                    <a v-if="!showHidden">
-                                        <span v-if="type==='password'" v-on:click="showHidden = true">Click to Reset</span>
-                                    </a>
-                                </template>
-                            </div>
-                        </div>
-                        <div class="row" v-if="showHidden">
-                            <div class="col-xs-12">
-                                <password-edit v-model="internalValue" :allow-empty-password="allowEmptyPassword" v-on:cancel="showHidden = !showHidden" v-on:confirm="onConfirmPassword"></password-edit>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-else-if="type==='clickToShow'">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <button class="help-btn btn btn-xs btn-info pull-right" v-on:click="showHelp = !showHelp"><span class="glyphicon glyphicon-question-sign"></span></button>
-                                <label v-text="title + ':'"></label>
-                                <a>
-                                    <span v-if="showHidden" v-on:click="showHidden = !showHidden">Click to Hide</span>
-                                    <span v-else            v-on:click="showHidden = !showHidden">Click to Show</span>
+    <div class="prop-set" v-show="shouldShow">
+        <div class="col-main">
+            <div class="form-inline d-flex the-form">
+                <template v-if="type==='password'">
+                    <div class="form-group a-form-group">
+                            <label v-text="title + ':'"></label>
+                            <template v-if="state === 'edit' || !passwordResetOnEdit">
+                                <a v-if="!showHidden" style="color: blue">
+                                    <span
+                                        v-if="type==='password'"
+                                        v-on:click="showHidden = true"
+                                    >Click to Reset</span>
                                 </a>
-                            </div>
-                        </div>
-                        <div class="row" v-if="showHidden">
-                            <div class="col-xs-12">
-                                <p v-text="getDisplayText"></p>
-                            </div>
+                            </template>
+                            <button
+                                class="help-btn btn btn-sm btn-info"
+                                v-on:click="showHelp = !showHelp"
+                            >
+                                <fa-icon icon="question" />
+                            </button>
+                    </div>
+                    <div class="form-group a-form-group" v-if="showHidden">
+                            <password-edit
+                                v-model="internalValue"
+                                :allow-empty-password="allowEmptyPassword"
+                                v-on:cancel="showHidden = !showHidden"
+                                v-on:confirm="onConfirmPassword"
+                            ></password-edit>
+                    </div>
+                </template>
+                <template v-else-if="type==='clickToShow'">
+                    <div class="form-group a-form-group">
+                            <button
+                                class="help-btn btn btn-sm btn-info"
+                                v-on:click="showHelp = !showHelp"
+                            >
+                                <fa-icon icon="question" />
+                            </button>
+                            <label v-text="title + ':'"></label>
+                            <a>
+                                <span
+                                    v-if="showHidden"
+                                    v-on:click="showHidden = !showHidden"
+                                >Click to Hide</span>
+                                <span v-else v-on:click="showHidden = !showHidden">Click to Show</span>
+                            </a>
+                    </div>
+                    <div class="form-group a-form-group" v-if="showHidden">
+                        <div class="col-12">
+                            <p v-text="getDisplayText"></p>
                         </div>
                     </div>
-                    <div v-else>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <label v-text="title + ':'"></label>
-                                <span v-if="state !== 'edit' && type !== 'custom'" v-text="getDisplayText"></span>
+                </template>
+                <template v-else>
+                    <div class="form-group a-form-group">
+                            <label v-text="title + ':'"></label>
+                            <span
+                                v-if="state !== 'edit' && type !== 'custom'"
+                                v-text="getDisplayText"
+                            ></span>
 
-                                <input v-if="state === 'edit' && type==='bool'" type="checkbox" class="settings-checkbox" style="margin-left: 10px; margin-right: 10px;" v-model="internalValue" />
+                            <input
+                                v-if="state === 'edit' && type==='bool'"
+                                type="checkbox"
+                                class="settings-checkbox"
+                                style="margin-left: 10px; margin-right: 10px;"
+                                v-model="internalValue"
+                            />
 
-                                <button class="help-btn btn btn-xs btn-info pull-right" v-on:click="showHelp = !showHelp"><span class="glyphicon glyphicon-question-sign"></span></button>
+                            <button
+                                class="help-btn btn btn-sm btn-info"
+                                v-on:click="showHelp = !showHelp"
+                            >
+                                <fa-icon icon="question" />
+                            </button>
 
-                                <slot name="display" v-if="state !== 'edit' && type === 'custom'">
-                                </slot>
-                                <button v-if="highlightText" v-on:click="showHighlightDescription = !showHighlightDescription" class="btn btn-sm btn-info btn-highlight">
-                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row" v-if="state === 'edit' && type !== 'bool'">
-                            <div class="col-xs-12">
-                                <select v-if="type==='enum'" type="checkbox" class="form-control" v-model="internalValue">
-                                    <option v-for="option in options" v-text="option" :key="option"></option>
-                                </select>
-                                <input v-else-if="type==='int'" type="number" step="1" class="form-control" v-model="internalValue" />
-                                <input v-else-if="type==='nat'" type="number" min="0" step="1" class="form-control" v-model="internalValue" />
-                                <input v-else-if="type==='float'" type="number" class="form-control" v-model="internalValue" />
-                                <input v-else-if="type==='clickToShow'" type="password" class="form-control wide-input" v-model="internalValue"/>
-                                <input v-else-if="type==='password'" type="password" class="form-control wide-input" v-model="internalValue"/>
-                                <date-time-picker v-else-if="type==='date'" v-model="asmoment"></date-time-picker>
-                                <input v-else-if="type!=='custom'" type="text" class="form-control wide-input" v-model="internalValue"/>
-                                <slot name="edit" v-else>
-                                </slot>
-                            </div>
-                        </div>
+                            <slot name="display" v-if="state !== 'edit' && type === 'custom'"></slot>
+                            <button
+                                v-if="highlightText"
+                                v-on:click="showHighlightDescription = !showHighlightDescription"
+                                class="btn btn-sm btn-info btn-highlight"
+                            >
+                                <fa-icon class="exclamation"></fa-icon>
+                            </button>
                     </div>
-                </div>
+                    <div class="form-group a-form-group" v-if="state === 'edit' && type !== 'bool'">
+                            <select
+                                v-if="type==='enum'"
+                                type="checkbox"
+                                class="form-control"
+                                v-model="internalValue"
+                            >
+                                <option v-for="option in options" v-text="option" :key="option"></option>
+                            </select>
+                            <input
+                                v-else-if="type==='int'"
+                                type="number"
+                                step="1"
+                                class="form-control"
+                                v-model="internalValue"
+                            />
+                            <input
+                                v-else-if="type==='nat'"
+                                type="number"
+                                min="0"
+                                step="1"
+                                class="form-control"
+                                v-model="internalValue"
+                            />
+                            <input
+                                v-else-if="type==='float'"
+                                type="number"
+                                class="form-control"
+                                v-model="internalValue"
+                            />
+                            <input
+                                v-else-if="type==='clickToShow'"
+                                type="password"
+                                class="form-control wide-input"
+                                v-model="internalValue"
+                            />
+                            <input
+                                v-else-if="type==='password'"
+                                type="password"
+                                class="form-control wide-input"
+                                v-model="internalValue"
+                            />
+                            <date-time-picker v-else-if="type==='date'" v-model="asmoment"></date-time-picker>
+                            <input
+                                v-else-if="type!=='custom'"
+                                type="text"
+                                class="form-control wide-input"
+                                v-model="internalValue"
+                            />
+                            <slot name="edit" v-else></slot>
+                    </div>
+                </template>
             </div>
         </div>
-        <div class="well well-sm help-well" v-if="shouldShow && showHelp">
+        <div class="card bg-light help-well" v-if="shouldShow && showHelp">
             <slot></slot>
         </div>
-        <div class="well well-sm help-well" v-if="shouldShow && showHighlightDescription">
-            <p v-text="highlightText">
-            </p>
+        <div class="card bg-light help-well" v-if="shouldShow && showHighlightDescription">
+            <p v-text="highlightText"></p>
         </div>
     </div>
 </template>
@@ -92,23 +154,33 @@ import moment from "moment";
 
 //https://stackoverflow.com/a/40915857/1109665 //Implementing your own v-model. :D
 export default {
-    props: ["value", "title", "state", "filter", "type", "options", "allowEmptyPassword", "passwordResetOnEdit", "highlight"],
+    props: [
+        "value",
+        "title",
+        "state",
+        "filter",
+        "type",
+        "options",
+        "allowEmptyPassword",
+        "passwordResetOnEdit",
+        "highlight"
+    ],
     data() {
         return {
             showHelp: false,
             internalValue: null,
             showHidden: false,
-            showHighlightDescription: false,
+            showHighlightDescription: false
         };
     },
     created() {
         this.internalValue = this.value;
     },
     watch: {
-        value: function () {
+        value: function() {
             this.internalValue = this.value;
         },
-        internalValue: function () {
+        internalValue: function() {
             if (this.internalValue !== undefined) {
                 this.$emit("input", this.internalValue);
             }
@@ -120,43 +192,47 @@ export default {
             let t = typeof v;
             if (typeof v === "boolean") {
                 return v ? "Yes" : "No";
-            }
-            else if(this.type === "date"){
-                if(v === null){
-                    return "N/A"
+            } else if (this.type === "date") {
+                if (v === null) {
+                    return "N/A";
                 }
-                if(!moment.isMoment(v)){
+                if (!moment.isMoment(v)) {
                     v = new moment(v);
                 }
-                return v.format('MM/DD/YY');
+                return v.format("MM/DD/YY");
             }
             return v;
         },
-        highlightText(){
-            if(this.highlight && this.highlight.filter){
+        highlightText() {
+            if (this.highlight && this.highlight.filter) {
                 let getMatch = () => {
-                    for(let i = 0; i<this.highlight.length; i++){
+                    for (let i = 0; i < this.highlight.length; i++) {
                         let h = this.highlight[i];
-                        if(h.value && h.value.filter){
-                            let isMatch = h.value.some(x => x === this.internalValue);
-                            if(h.inverse && !isMatch){
+                        if (h.value && h.value.filter) {
+                            let isMatch = h.value.some(
+                                x => x === this.internalValue
+                            );
+                            if (h.inverse && !isMatch) {
+                                return h;
+                            } else if (!h.inverse && isMatch) {
                                 return h;
                             }
-                            else if(!h.inverse && isMatch){
-                                return h;
-                            }
-                        }
-                        else if(h.inverse && h.value !== this.internalValue){
+                        } else if (
+                            h.inverse &&
+                            h.value !== this.internalValue
+                        ) {
                             return h;
-                        }
-                        else if(!h.inverse && h.value === this.internalValue){
+                        } else if (
+                            !h.inverse &&
+                            h.value === this.internalValue
+                        ) {
                             return h;
                         }
                     }
-                }
+                };
                 let match = getMatch();
-                if(match){
-                    return (match.text || "Not the standard value.");
+                if (match) {
+                    return match.text || "Not the standard value.";
                 }
             }
             return undefined;
@@ -179,62 +255,91 @@ export default {
             return t.includes(f);
         },
         asmoment: {
-            get(){
-                if(this.internalValue == null){
+            get() {
+                if (this.internalValue == null) {
                     return null;
                 }
-                if(moment.isMoment(this.internalValue)){
+                if (moment.isMoment(this.internalValue)) {
                     return this.internalValue;
-                }
-                else{
+                } else {
                     return new moment(this.internalValue);
                 }
             },
-            set(value){
-                if(moment.isMoment(this.internalValue)){
+            set(value) {
+                if (moment.isMoment(this.internalValue)) {
                     this.internalValue = value;
-                }
-                else{
+                } else {
                     this.internalValue = value.toISOString();
                 }
-            },
+            }
         }
     },
     methods: {
         onConfirmPassword(newPassword) {
             this.showHidden = false;
             this.internalValue = newPassword;
-            this.$emit('confirm', newPassword);
+            this.$emit("confirm", newPassword);
         }
     },
     components: {
-        PasswordEdit, DateTimePicker
+        PasswordEdit,
+        DateTimePicker
     }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .prop-set {
-  padding-left: 10px;
-  padding-top: 5px;
-  border-top: solid;
-  border-width: 2px;
+    padding-top: 5px;
+    border-right: solid;
+    border-left: solid;
+    border-bottom: solid;
+    border-width: 1px;
+}
+
+.col-main{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 5px;
 }
 
 .help-well {
-  margin-top: 5px;
-  margin-bottom: 0;
+    margin-top: 5px;
+    padding-left: 10px;
 }
 
 .help-btn {
-  margin-right: 5px;
+    $y: 2px;
+    $x: 5px;
+    margin-right: 5px;
+    margin-left: auto;
+    margin-bottom: 5px;
+    padding: $y $x $y $x;
 }
 
-.wide-input{
+.wide-input {
     min-width: 50%;
 }
 
-.btn-highlight{
+.btn-highlight {
     padding: 0 2px 0 2px;
+}
+
+.the-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.a-form-group{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
 }
 </style>

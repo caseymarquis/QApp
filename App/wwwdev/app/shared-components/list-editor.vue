@@ -8,19 +8,20 @@
                     <slot name="header">
                     </slot>
                 </div>
-                <div class="col-sm-6">
-                    <button v-if="showCreateNew" class="btn btn-success pull-right" v-on:click="$emit('createNew')">
-                        <span class="glyphicon glyphicon-plus"></span>
+                <div class="col-sm-6 tr-buttons">
+                    <button v-if="showCreateNew" class="btn btn-success" style="margin-left: 10px;" v-on:click="$emit('createNew')">
+                        <fa-icon icon="plus"/>
                         Create New <span v-text="itemName"></span>
                     </button>
-                    <search-bar v-if="showSearch2" class="pull-right" placeholder="Search Properties..." v-on:search="onSearch2"></search-bar> 
+                    <search-bar v-if="showSearch2" placeholder="Search Properties..." v-on:search="onSearch2"></search-bar> 
                 </div>
             </div>
             <div class="row pm-edit-row">
-                <div v-for="item in items" v-show="(filter.trim() === '') || shouldShowItem(item)" :key="item.id">
+                <template v-for="item in items" v-show="(filter.trim() === '') || shouldShowItem(item)">
                     <slot v-bind:item="item" v-bind:filter="filter2">
+                        <div :key="item.id"></div>
                     </slot>
-                </div>
+                </template>
             </div>
         </div>
     </div>
@@ -77,9 +78,13 @@ export default {
 
 <style scoped>
 .editor-first-row {
-  margin-top: 10px;
+  padding-top: 10px;
 }
 .pm-edit-row {
   margin-top: 10px;
+}
+.tr-buttons {
+    display: flex;
+    flex-direction: row-reverse;
 }
 </style>

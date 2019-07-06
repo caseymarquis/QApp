@@ -1,87 +1,71 @@
 <template>
     <div>
-        <slide-menu>
-        </slide-menu>
-        <div class="navbar navbar-default navbar-fixed-top">
-            <div class="container navbar-container the-nav-container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <router-link to="/" style="padding-top: 4px; padding-bottom: 0; padding-left:0; padding-right: 0;">
-                                <h1>Logo</h1>
-                                <!--img :src="imgLogo" class="center-block visible-lg" style="height: 70px; margin-left: 0;" /-->
-                                <!--img :src="imgLogo" class="center-block visible-md visible-sm" style="max-height: 35px; margin-left: 0; margin-top: 15px;" /-->
-                            </router-link>
-                        </li>
-                        <li>
-                            <div class="page-title-div">
-                                <h2 class="page-title visible-lg" v-text="pageTitle">
-                                </h2>
-                            </div>
-                        </li>
-                        <li v-if="loggedIn">
-                            <button class="btn main-search" :class="{ 'btn-primary': !machineFilterActive, 'btn-warning': machineFilterActive }" v-on:click="toggleSlide">
-                                <span class="glyphicon glyphicon-list"></span>
-                            </button>
-                        </li>
-                        <li v-if="loggedIn && $store.state.search.show">
-                            <search-bar v-model="searchText" class="main-search" placeholder="Search..."></search-bar> 
-                        </li>
-                    </ul>
-                    <ul v-if="loggedIn" class="nav navbar-nav navbar-right">
-                        <li>
-                            <router-link :to="'/user/' + $store.state.user.id" class="right-nav-item">
-                                <h2 v-text="userFirstName">
-                                </h2>
-                            </router-link>
-                        </li>
-                        <li>
-                            <a class="right-nav-item">
-                                <h2 v-on:click="logout">
-                                    Log Out
-                                </h2>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="right-nav-item">
-                                <router-link to="/" class="rlink-top-menu">
-                                    <h2>
-                                        Home
-                                    </h2>
-                                </router-link>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+        <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-dark bg-primary">
+            <router-link to="/" class="navbar-brand">
+                Logo
+                <!--img :src="imgLogo" class="center-block visible-lg" style="height: 70px; margin-left: 0;" /-->
+                <!--img :src="imgLogo" class="center-block visible-md visible-sm" style="max-height: 35px; margin-left: 0; margin-top: 15px;" /-->
+            </router-link>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <h2 class="page-title visible-lg" v-text="pageTitle"></h2>
+                    </li>
+                    <li v-if="loggedIn" class="nav-item active">
+                        <button class="btn btn-primary slide-menu-btn" v-on:click="toggleSlide">
+                            <fa-icon icon="bars" size="lg" />
+                        </button>
+                    </li>
+                    <li v-if="loggedIn && $store.state.search.show" class="nav-item active">
+                        <search-bar
+                            v-model="searchText"
+                            class="main-search"
+                            placeholder="Search..."
+                        ></search-bar>
+                    </li>
+                </ul>
+                <ul v-if="loggedIn" class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <router-link :to="'/user/' + $store.state.user.id" class="nav-link">
+                            <span v-text="userFirstName"></span>
+                        </router-link>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" v-on:click="logout">Log Out</a>
+                    </li>
+                    <li class="nav-item active">
+                        <router-link to="/" class="nav-link">Home</router-link>
+                    </li>
+                </ul>
             </div>
-        </div>
+        </nav>
 
-        <div class="container main-container">
-            <div class="col-sm-12 main-column">
-                <div>
-                    <page-home v-if="!loggedIn"></page-home>
-                    <router-view v-else></router-view>
-                </div>
-            </div>
+        <div class="container-fluid container-fluid-main" :style="containerMainStyle">
+            <slide-menu></slide-menu>
+            <page-home style="height: 100%;" v-if="!loggedIn"></page-home>
+            <router-view style="height: 100%;" v-else></router-view>
         </div>
     </div>
 </template>
 
 <script>
-import PageHome from '../page-home/page-home.vue';
-import SearchBar from '../shared-components/search-bar.vue';
-import SlideMenu from './slide-menu.vue';
+import PageHome from "../page-home/page-home.vue";
+import SearchBar from "../shared-components/search-bar.vue";
+import SlideMenu from "./slide-menu.vue";
 //import imgLogo from "../img/logo.png";
 
-import AuthState from '../js/AuthState.js';
+import AuthState from "../js/AuthState.js";
 import SetupPage from "../js/SetupPage.js";
 import router from "../js/router.js";
 
@@ -89,13 +73,20 @@ export default {
     data() {
         return {
             //imgLogo,
-            wasMounted: false,
+            wasMounted: false
         };
     },
-    mounted(){
+    mounted() {
         this.wasMounted = true;
     },
     created() {
+        this.updateScreenHeight();
+        setTimeout(() => {
+            this.updateScreenHeight();
+        }, 100);
+        setInterval(() => {
+            this.updateScreenHeight();
+        }, 500);
         AuthState.tryToLogInWithOldAuthToken(this.$store);
     },
     computed: {
@@ -115,10 +106,9 @@ export default {
             }
             for (let i = 0; i < parts.length; i++) {
                 let part = parts[i];
-                if (i === (parts.length - 1)) {
+                if (i === parts.length - 1) {
                     ret += " " + part;
-                }
-                else if (part.length > 0) {
+                } else if (part.length > 0) {
                     ret += part[0] + ".";
                 }
             }
@@ -128,106 +118,102 @@ export default {
             return this.$store.state.pageTitle;
         },
         searchText: {
-            get(){
+            get() {
                 return this.$store.state.search.text;
             },
-            set(text){
-                if(text === undefined || text === null){
+            set(text) {
+                if (text === undefined || text === null) {
                     return;
                 }
                 router.appendQuery(this, { search: text });
-                this.$store.commit('setSearchText', text);
+                this.$store.commit("setSearchText", text);
             }
         },
-        machineFilterActive(){
-            return false;
+        containerMainStyle(){
+            return this.$store.state.pageFluid? { height: `${this.$store.state.screenHeight}px` } : {};
         }
     },
     methods: {
         logout() {
-            if(this.wasMounted){
+            if (this.wasMounted) {
                 AuthState.logOut(this.$store);
             }
         },
-        toggleSlide(){
-            this.$store.commit('toggleSlide');
+        toggleSlide() {
+            this.$store.commit("toggleSlide");
         },
+        updateScreenHeight() {
+            var navEl = document.getElementById('navbar-main');
+            if(navEl){
+                let newVal = window.innerHeight - navEl.clientHeight;
+                if(newVal !== this.$store.state.screenHeight){
+                    this.$store.commit('setScreenHeight', newVal);
+                }
+            }
+        }
     },
     components: {
-        PageHome, SearchBar, SlideMenu
-    },
-}
+        PageHome,
+        SearchBar,
+        SlideMenu
+    }
+};
 </script>
 
-<style>
-.rlink-top-menu {
-  color: #fff;
+<style lang="scss">
+@import "globals.scss";
+
+.navbar-main{
+    min-height: $navbar-main-height;
 }
 
-.rlink-top-menu:hover {
-  color: #18bc9c;
-  text-decoration: none;
+.bg-primary {
+    .navbar-nav .active > .nav-link {
+        color: #fff !important;
+        font-size: large;
+        font-weight: normal;
+    }
+    .navbar-nav .active > .nav-link:hover {
+        color: #18bc9c !important;
+    }
 }
 
-.navbar-container {
-  margin-left: 0px;
-  margin-right: 0px;
-  padding-right: 60px;
-  width: 100%;
-}
-
-h2 {
-  font-size: large;
-  margin-top: 10.5px;
-}
-
-.main-container {
-  margin-top: 60px;
-  margin-left: 0px;
-  margin-right: 50px;
-  width: 100%;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.main-column {
-  padding-right: 0;
-  padding-left: 0;
-  padding-bottom: 0;
-  margin-top: 20px;
+$brand-padding: 15px;
+.navbar-brand {
+    padding-left: $brand-padding;
+    padding-right: $brand-padding;
+    font-size: large;
 }
 
 a {
-  color: #001dff;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.page-title-div {
-  padding-top: 10px;
-  margin-left: 10px;
+    color: blue;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .page-title {
-  color: white;
-  text-shadow: black 2px 2px;
-  font-size: x-large;
-  border-top: solid;
-  border-bottom: solid;
-  border-width: 1px;
+    color: white;
+    text-shadow: black 2px 2px;
+    font-size: x-large;
+    border-top: solid;
+    border-bottom: solid;
+    border-width: 1px;
+    margin-top: 10.5px;
 }
 
-.main-search{
-    margin-left: 20px;
-    margin-top: 12px;
+$slide-menu-btn-margin: 10px;
+.slide-menu-btn{
+    height: 100%;
+    margin-left: $slide-menu-btn-margin;
+    margin-right: $slide-menu-btn-margin;
 }
 
-.right-nav-item {
-    padding-left: 5px !important;
-    padding-right: 5px !important;
+.main-search {
+    height: 100%;
 }
 
-.the-nav-container {
-    padding-right: 20px;
+.container-fluid{
+    padding-left: $container-fluid-padding;
+    padding-right: $container-fluid-padding;
 }
 </style>

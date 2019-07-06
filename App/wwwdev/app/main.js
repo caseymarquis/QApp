@@ -2,13 +2,27 @@ import 'babel-polyfill';
 
 import 'jquery';
 import Bootstrap from 'bootstrap';
-import './scss/bootswatch.scss';
+import './scss/main.scss';
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 //Import on main page load:
 import MainRouter from './site/main-router.vue';
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { 
+    faSearch, faBars, faArrowLeft, faQuestion,
+    faExclamation, faChevronDown, faChevronUp, faSort,
+    faPlus, faTimes, faCalendarAlt
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon as FaIcon } from '@fortawesome/vue-fontawesome';
+//Reference for component properties: https://github.com/FortAwesome/vue-fontawesome#basic
+//Free solid icon list: https://fontawesome.com/icons?d=gallery&s=solid&m=free
+Vue.component('fa-icon', FaIcon);
+library.add(faSearch, faBars, faArrowLeft, faQuestion,
+    faExclamation, faChevronDown, faChevronUp, faSort,
+    faPlus, faTimes, faCalendarAlt);
 
 //Import when navigating to page:
 const MainLayout = () => import('./site/main-layout.vue');

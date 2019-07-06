@@ -1,14 +1,10 @@
 <template>
-    <div>
-        <div class="form-inline">
-            <div class="input-group">
-                <input class="form-control search-form-control" type="text" :placeholder="placeholder" v-model="searchText" v-on:keyup="raiseSearch">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" v-on:click="raiseSearch">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </button>
-                </span>
-            </div>
+    <div class="form-inline" style="height: 100%;">
+        <div class="input-group">
+            <input class="form-control search-form-control" type="text" :placeholder="placeholder" v-model="searchText" v-on:keyup="raiseSearch">
+            <button type="button" class="btn btn-info" v-on:click="raiseSearch" style="margin-left: -2px;">
+                <fa-icon icon="search" size="lg" />
+            </button>
         </div>
     </div>
 </template>

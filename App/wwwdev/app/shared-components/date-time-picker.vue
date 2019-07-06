@@ -4,7 +4,7 @@
             <div class='input-group' :id='myId'>
                 <input type='text' class="form-control" />
                 <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
+                    <fa-icon icon="calendar-alt"/>
                 </span>
             </div>
         </div>

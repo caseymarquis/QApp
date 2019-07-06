@@ -1,15 +1,15 @@
 <template>
     <div class="row">
-        <div class="col-xs-10" style="padding-right: 0;">
+        <div class="col-10" style="padding-right: 0;">
             <input v-model="text" :id="`${idBase}in`" v-on:keyup="onKeyUp" v-on:input="onInput" v-on:click="onClick" class="form-control the-input" :list="`${idBase}list`" :name="name" :placeholder="placeholder" />
             <datalist :id="`${idBase}list`">
                 <slot>
                 </slot>
             </datalist>
         </div>
-        <div class="col-xs-2" style="padding-left: 0; height: 100%;">
+        <div class="col-2" style="padding-left: 0; height: 100%;">
             <button class="btn btn-primary" style="object-fit: fill;" v-on:click="clear">
-                <span class="glyphicon glyphicon-remove"></span>
+                <fa-icon icon="times" />
             </button>
         </div>
     </div>

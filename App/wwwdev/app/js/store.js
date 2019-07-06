@@ -14,6 +14,7 @@ const store = new Vuex.Store({
             isAdmin: false,
         },
         pageTitle: "",
+        pageFluid: false,
         search: {
             show: false,
             placeholder: true,
@@ -22,7 +23,8 @@ const store = new Vuex.Store({
         slide: {
             visible: false,
             hasEntered: false,
-        }
+        },
+        screenHeight: 1000,
     },
     mutations: {
         login(state, user) {
@@ -48,6 +50,12 @@ const store = new Vuex.Store({
                 title = "";
             }
             state.pageTitle = title;
+        },
+        setPageFluid(state, value){
+            state.pageFluid = value;
+        },
+        setScreenHeight(state, height){
+            state.screenHeight = height;
         },
         setupSearch(state, search){
             if(!search.placeholder){
