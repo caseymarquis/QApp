@@ -9,12 +9,12 @@ There's more to it than that, as the application uses a lot of my personal .net 
 simplifying things like database connections and utilizing a DI/Process framework I built for standalone .net services.
 User login/creating/editing is available, Vuex and VueRouter are already set up and ready to go. Webpack is configured properly
 for single file components, changing file names to invalidate caching, and async loading application chunks for speedy performance.
-A decent base style is present using the old (but good) version of bootstrap with the bootswatch 'flatly' theme. There's even a proper Dockerfile for building
+A decent base style is present using boostrap 4 with the bootswatch 'flatly' theme. There's even a proper Dockerfile for building
 both the backend and frontend and deploying them as a unit. Essentially, once you understand what all the pieces are doing,
 you're ready to just make something and deploy it within minutes, saving the typical half day or more of setup usually spent
 getting a new application ready.
 
-This probably shouldn't be used for an important internet facing production application (the security isn't battle-tested by any means),
+This probably shouldn't be used for an important internet facing production application (the security isn't battle-tested by any means, and has known/accepted XSS vulnerabilities),
 but it's perfect for trusted LAN deployments, prototypes, or hobby projects. If you have valuable information to store, guard it with something better
 than this!
 
