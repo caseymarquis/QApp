@@ -53,6 +53,7 @@ end up with two databases called 'QAppExample'.
 7. Login as the admin user. Whatever you use as a password will be set as the admin password.
 8. You're now deployed on Heroku.
 9. If you make changes to the app, you can deploy them by running the push/release steps again.
+10. If you need to run heroku commands on a new PC, you'll need to run 'git remote add heroku git@heroku.com:heroku-project-name.git' in the directory of the cloned repository.
 
 ## Getting Started with .NET Framework.
 
