@@ -6,53 +6,32 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KC.NanoProcesses;
+using KC.Actin;
 
 namespace QApp.Processes {
 
-    [NanoDI]
-    public class Db_CheckIfUp : NanoProcess {
-        object lockEverything = new object();
-        private bool m_DbIsUp;
-        public bool DbIsUp {
-            get {
-                lock (lockEverything) {
-                    return m_DbIsUp;
-                }
-            }
-        }
+    [Singleton]
+    public class Db_CheckIfUp : Actor {
+        private Atom<bool> m_DbIsUp = new Atom<bool>();
+        public bool DbIsUp => m_DbIsUp.Value;
+
+        protected override TimeSpan RunDelay => new TimeSpan(0, 0, 1);
 
         public async Task<bool> UpdateAndReturnIfDbIsUp() {
             try {
                 await AppDbContext.WithContext(async db => {
                     var userId = await db.Users.Select(x => x.Id).FirstOrDefaultAsync();
                 });
-                lock (lockEverything) {
-                    m_DbIsUp = true;
-                    return true;
-                }
+                m_DbIsUp.Value = true;
+                return true;
             }
             catch (SqlException) {
-                lock (lockEverything) {
-                    m_DbIsUp = false;
-                    return false;
-                }
+                m_DbIsUp.Value = false;
+                return false;
             }
         }
 
-        public override string ProcessName => nameof(Db_CheckIfUp);
-
-        protected override TimeSpan RunDelay => new TimeSpan(0, 0, 1);
-
-        protected override Task OnDispose(NpUtil util) {
-            return Task.FromResult(0);
-        }
-
-        protected override Task OnInit(NpUtil util) {
-            return Task.FromResult(0);
-        }
-
-        protected override async Task OnRun(NpUtil util) {
+        protected override async Task OnRun(ActorUtil util) {
             await UpdateAndReturnIfDbIsUp();
         }
     }

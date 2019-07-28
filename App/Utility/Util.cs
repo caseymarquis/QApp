@@ -11,11 +11,11 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using QApp.Processes;
-using KC.NanoProcesses;
+using KC.Actin;
 
 namespace QApp {
     public static class Util {
-        public static NPStandardLogger Log;
+        public static ActinStandardLogger Log;
 
         public static string[] GetEnumOptionsAsString<T>() where T : struct
         {

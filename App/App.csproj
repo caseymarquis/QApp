@@ -35,8 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="KC.BaseDb" Version="2.0.1" />
-    <PackageReference Include="kc.nanoprocesses" Version="2.0.0" />
-    <PackageReference Include="kc.ricochet" Version="1.0.2" />
+    <PackageReference Include="KC.Actin" Version="3.0.0" />
+    <PackageReference Include="KC.Ricochet" Version="3.3.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />

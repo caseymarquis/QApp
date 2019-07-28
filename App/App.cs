@@ -6,7 +6,7 @@ using QApp.Processes;
 using QApp.Database;
 using System.IO;
 using System.Reflection;
-using KC.NanoProcesses;
+using KC.Actin;
 using KC.BaseDb;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,62 +45,23 @@ namespace QApp {
 
         public static AppConfig Config = new AppConfig();
 
-        private NanoProcessManager procManager;
+        private Director director;
         public App() {
-            procManager = new NanoProcessManager(Config.AppLogDirPath);
+            director = new Director(Config.AppLogDirPath);
         }
 
         public async Task Run(bool logToDisk = true) {
-            Util.Log = procManager.StandardLog;
+            Util.Log = director.StandardLog;
             Util.Log.LogToDisk = logToDisk;
-            await procManager.Run(async (util) => {
-                var criticalBootPassed = false;
-                var firstRun = true;
-                while (!criticalBootPassed) {
-                    //If we don't make it through this loop, 
-                    //then the service can't start. The DB isn't up,
-                    //and we haven't ensured it's migrated.
-                    //If anything MUST happen before the app starts, 
-                    //it should be added in below in the style of the other items.
-                    if (!firstRun) {
-                        await Task.Delay(5000);
-                    }
-                    util.Now = DateTimeOffset.Now;
-                    firstRun = false;
-                    try {
-                        //Needs to be removed if a custom logger is used.
-                        await procManager.StandardLog.Run(util);
-                    }
-                    catch { }
-                    try {
-                        //If we're failing to access the db, continually refresh the connection string:
-                        AppDbContext.DbConnectionSettings.Reset();
-                    }
-                    catch (Exception ex) {
-                        util.Log.Error(null, "StartUp.ResetConnectionString", ex);
-                        continue;
-                    }
-                    try {
-                        await AppDbContext.Migrate();
-                    }
-                    catch (Exception ex) {
-                        util.Log.Error(null, "StartUp.Migrate", ex);
-                        continue;
-                    }
-                    try {
-                        await AppDbContext.Populate();
-                    }
-                    catch (Exception ex) {
-                        util.Log.Error(null, "StartUp.PopulateDatabase", ex);
-                        continue;
-                    }
-                    criticalBootPassed = true;
-                }
-            }, this.GetType().Assembly);
+            await director.Run(startUp_loopUntilSucceeds: true, startUp: async (util) => {
+                AppDbContext.DbConnectionSettings.Reset();
+                await AppDbContext.Migrate();
+                await AppDbContext.Populate();
+            }, assembliesToCheckForDI: this.GetType().Assembly);
         }
 
         public void Dispose() {
-            procManager.Dispose();
+            director.Dispose();
         }
     }
 }

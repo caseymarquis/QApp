@@ -14,11 +14,11 @@ namespace QApp.Web.Models
         public string email { get; set; }
 
         public void PullData(User from) {
-            KC.Ricochet.Util.CopyProps(from, this);
+            KC.Ricochet.Util.CopyPublicValueProps(from, this);
         }
 
         public void PushData(User to) {
-            KC.Ricochet.Util.CopyProps(this, to);
+            KC.Ricochet.Util.CopyPublicValueProps(this, to);
         }
     }
 }

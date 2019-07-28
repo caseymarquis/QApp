@@ -8,17 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using KC.NanoProcesses;
+using KC.Actin;
 
 namespace QApp.Processes {
-    [NanoDI]
-    public class WebSite_Run : NanoProcess {
-        public override string ProcessName => nameof(WebSite_Run);
+    [Singleton]
+    public class WebSite_Run : Actor {
         protected override TimeSpan RunDelay => new TimeSpan(0, 0, 30);
 
         private CancellationTokenSource cTokenSource = new CancellationTokenSource();
 
-        protected override Task OnInit(NpUtil util) {
+        protected override Task OnInit(ActorUtil util) {
             var cToken = cTokenSource.Token;            
 
             var contentRoot =
@@ -33,12 +32,12 @@ namespace QApp.Processes {
             return Task.FromResult(0);
         }
 
-        protected override Task OnDispose(NpUtil util) {
+        protected override Task OnDispose(ActorUtil util) {
             cTokenSource.Cancel();
             return Task.FromResult(0);
         }
 
-        protected override Task OnRun(NpUtil util) {
+        protected override Task OnRun(ActorUtil util) {
             return Task.FromResult(0);
         }
     }

@@ -41,17 +41,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KC.Actin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KC.Actin.3.0.0\lib\netstandard2.0\KC.Actin.dll</HintPath>
+    </Reference>
     <Reference Include="KC.BaseDb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\KC.BaseDb.2.0.1\lib\netstandard2.0\KC.BaseDb.dll</HintPath>
     </Reference>
     <Reference Include="KC.InstallService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\KC.InstallService.1.0.2\lib\net46\KC.InstallService.dll</HintPath>
     </Reference>
-    <Reference Include="KC.NanoProcesses, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KC.NanoProcesses.2.0.0\lib\netstandard2.0\KC.NanoProcesses.dll</HintPath>
-    </Reference>
     <Reference Include="KC.Ricochet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\KC.Ricochet.1.0.2\lib\netstandard2.0\KC.Ricochet.dll</HintPath>
+      <HintPath>..\packages\KC.Ricochet.3.3.0\lib\netstandard2.0\KC.Ricochet.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.dll</HintPath>
