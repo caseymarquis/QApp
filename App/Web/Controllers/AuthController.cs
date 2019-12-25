@@ -9,8 +9,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using QApp.Web.Controllers.Helpers;
 
 namespace QApp.Web.Controllers {
+    [InjectDependencies]
     public class AuthController : Controller {
 
         private static SemaphoreSlim bruteForceLock = new SemaphoreSlim(1, 1);

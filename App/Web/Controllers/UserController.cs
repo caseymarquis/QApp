@@ -8,8 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QApp.Web.Controllers.Helpers;
 
 namespace QApp.Web.Controllers {
+    [InjectDependencies]
     public class UserController : Controller {
         /// <summary>
         /// Returns a list of the existing users within the system.
