@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QApp.Processes;
+using QApp.Actors;
 using QApp.Database;
 using System.IO;
 using System.Reflection;
 using KC.Actin;
 using KC.BaseDb;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using KC.Actin.ActorUtilNS;
 
 namespace QApp {
     public class App {
@@ -45,23 +47,85 @@ namespace QApp {
 
         public static AppConfig Config = new AppConfig();
 
-        private Director director;
-        public App() {
-            director = new Director(Config.AppLogDirPath);
-        }
+        //This is static so we can inject dependencies into
+        //out web controllers.
+        public static Director Director = new Director();
 
         public async Task Run(bool logToDisk = true) {
-            Util.Log = director.StandardLog;
-            Util.Log.LogToDisk = logToDisk;
-            await director.Run(startUp_loopUntilSucceeds: true, startUp: async (util) => {
-                AppDbContext.DbConnectionSettings.Reset();
-                await AppDbContext.Migrate();
-                await AppDbContext.Populate();
-            }, assembliesToCheckForDI: this.GetType().Assembly);
+            await Director.Run(configure: config => {
+                config.Set_DirectorName("Main Director");
+                config.Set_AssembliesToCheckForDependencies(typeof(WebSite_Run).Assembly);
+                if (logToDisk) {
+                    config.Set_StandardLogOutputFolder(Config.AppLogDirPath);
+                }
+                else {
+                    //Will log to standard output.
+                    //You can also set a custom log.
+                }
+
+                var sw = new Stopwatch();
+                Console.WriteLine("App Starting...");
+                sw.Start();
+                config.Run_AfterStart(async util => {
+                    Console.WriteLine($"App started in {sw.ElapsedMilliseconds}ms.");
+                    var log = Director.GetSingleton<ActinStandardLogger>();
+
+                    await retryUntilSuccessful("Start Site", async () => {
+                        var runSite = Director.GetSingleton<WebSite_Run>();
+                        return await Task.FromResult(true);
+                    });
+
+                    try {
+                        await AppDbContext.Migrate();
+                    }
+                    catch (Exception ex) {
+                        util.Log.Error("Failed to Migrate DB. Proceeding regardless.", ex);
+                    }
+
+                    await retryUntilSuccessful("Populate DB", async () => {
+                        await AppDbContext.Populate();
+                        return true;
+                    });
+
+                    async Task retryUntilSuccessful(string taskName, Func<Task<bool>> doTask) {
+                        while (Director.Running) {
+                            try {
+                                util.Log.Info("Attempting: " + taskName);
+                                await writeLogs();
+                                var success = await doTask();
+                                if (!success) {
+                                    util.Log.Error("Failed: " + taskName);
+                                    await writeLogs();
+                                    await Task.Delay(5000);
+                                    continue;
+                                }
+                                util.Log.Info("Finished: " + taskName);
+                                await writeLogs();
+                                break;
+                            }
+                            catch (Exception ex) {
+                                util.Log.Error("Failed: " + taskName, ex);
+                                await writeLogs();
+                                await Task.Delay(5000);
+                                continue;
+                            }
+                            async Task writeLogs() {
+                                try {
+                                    await log.Run(() => new DispatchData {
+                                        MainLog = log,
+                                        Time = DateTimeOffset.Now,
+                                    });
+                                }
+                                catch { }
+                            }
+                        }
+                    }
+                });
+            });
         }
 
         public void Dispose() {
-            director.Dispose();
+            Director.Dispose();
         }
     }
 }

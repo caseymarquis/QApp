@@ -29,7 +29,7 @@ namespace QApp.Web.Controllers {
                     };
                 }
                 catch (AuthException ex) {
-                    Util.Log.Error(user.Id.ToString(), "AuthHelper.NotAuthorized", ex);
+                    App.Director.Log.Error(user.Id.ToString(), "AuthHelper.NotAuthorized", ex);
                     return new Web_AuthResponse<T>() {
                         notAuthorized = true
                     };
@@ -41,7 +41,7 @@ namespace QApp.Web.Controllers {
             //Make sure the submitted hash isn't the same as the database hash.
             //The whole goal is to prevent reversing the hash and getting the original
             //password, so adding this and then doing an SHA256 makes it harder to do that.
-            var hardCodedSalt = "Error: Unhandled Login Exception";
+            var hardCodedSalt = "Error: Unhandled Login Exception"; //You should change this to a different message.
             password += hardCodedSalt;
             using (var sha = SHA256.Create()) {
                 var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));

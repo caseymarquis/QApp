@@ -15,8 +15,6 @@ using KC.Actin;
 
 namespace QApp {
     public static class Util {
-        public static ActinStandardLogger Log;
-
         public static string[] GetEnumOptionsAsString<T>() where T : struct
         {
             var enumArray = (T[])Enum.GetValues(typeof(T));
