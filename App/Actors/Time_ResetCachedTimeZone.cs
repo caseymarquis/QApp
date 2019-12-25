@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QApp.Processes {
+namespace QApp.Actors {
     [Singleton]
     public class Time_ResetCachedTimeZone : Actor {
         protected override TimeSpan RunDelay => new TimeSpan(0, 10, 0);

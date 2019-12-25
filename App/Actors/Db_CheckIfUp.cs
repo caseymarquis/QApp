@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KC.Actin;
 
-namespace QApp.Processes {
+namespace QApp.Actors {
 
     [Singleton]
     public class Db_CheckIfUp : Actor {

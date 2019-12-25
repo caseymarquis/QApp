@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using KC.Actin;
 
-namespace QApp.Processes {
+namespace QApp.Actors {
     [Singleton]
     public class WebSite_Run : Actor {
         protected override TimeSpan RunDelay => new TimeSpan(0, 0, 30);
