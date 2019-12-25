@@ -22,12 +22,10 @@ namespace QApp.Processes {
                 await AppDbContext.WithContext(async db => {
                     var userId = await db.Users.Select(x => x.Id).FirstOrDefaultAsync();
                 });
-                m_DbIsUp.Value = true;
-                return true;
+                return m_DbIsUp.Value = true;
             }
             catch (SqlException) {
-                m_DbIsUp.Value = false;
-                return false;
+                return m_DbIsUp.Value = false;
             }
         }
 
