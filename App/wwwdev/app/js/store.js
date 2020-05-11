@@ -7,14 +7,10 @@ const store = new Vuex.Store({
     state: {
         loggedIn: false,
         loginMessage: "",
-        user: {
-            id: "",
-            name: "",
-            userName: "",
-            isAdmin: false,
         },
-        pageTitle: "",
         pageFluid: false,
+        pageTitle: "",
+        screenHeight: 1000,
         search: {
             show: false,
             placeholder: true,
@@ -24,7 +20,12 @@ const store = new Vuex.Store({
             visible: false,
             hasEntered: false,
         },
-        screenHeight: 1000,
+        user: {
+            id: "",
+            name: "",
+            userName: "",
+            isAdmin: false,
+        },
     },
     mutations: {
         login(state, user) {
