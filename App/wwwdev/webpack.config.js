@@ -5,7 +5,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 //Figure out our build mode:
 var isDev = false;
@@ -43,6 +43,7 @@ module.exports =
             app: './main.js',
         },
         output: {
+            globalObject: 'self',
             path: path.join(__dirname, outputDirectory),
             filename: 'app.bundle.[chunkhash].js'
         },
@@ -50,35 +51,39 @@ module.exports =
         devtool: 'source-map',
         optimization: {
             splitChunks: {
+                chunks: 'async',
+                minSize: 30000,
+                maxSize: 0,
+                minChunks: 1,
+                maxAsyncRequests: 6,
+                maxInitialRequests: 4,
+                automaticNameDelimiter: '~',
+                automaticNameMaxLength: 30,
                 cacheGroups: {
-                    node_vendors: {
+                    defaultVendors: {
                         test: /[\\/]node_modules[\\/]/,
-                        chunks: 'initial',
-                        priority: 1
+                        priority: -10
                     },
-                },
+                    default: {
+                        minChunks: 2,
+                        priority: -20,
+                        reuseExistingChunk: true
+                    }
+                }
             },
             minimize: !isDev,
             minimizer: [
-                new UglifyJsPlugin({
-                    cache: true,
-                    parallel: true,
-                    sourceMap: true,
-                    uglifyOptions: {
-                        compress: {
-                        },
-                        //sourceMap: true,
-                        mangle: {
-                            toplevel: true,
-                            eval: true,
-                        },
-                        output: {
-                            comments: false,
-                            beautify: false,
+                new TerserPlugin({
+                    chunkFilter: (chunk) => {
+                        // Exclude uglification for the `vendor` chunk
+                        let name = chunk.name;
+                        if (name && name.includes('vendor')) {
+                            return false;
                         }
-                    }
-                })
-              ],
+                        return true;
+                    },
+                }),
+            ],
         },
         module: {
             rules: [
@@ -155,19 +160,11 @@ module.exports =
         },
         plugins: [
             new VueLoaderPlugin(),
-            new webpack.ProvidePlugin({
-                $: 'jquery',
-                jQuery: 'jquery',
-                'window.jQuery': 'jquery',
-                Popper: ['popper.js', 'default']
-            }),
             new HtmlWebpackPlugin({
                 hash: true,
                 template: './index.html',
                 filename: 'index.html',
             }),
-            new CopyWebpackPlugin([
-            ]),
             //new BundleAnalyzerPlugin(), //Uncomment to view analysis of bundle size.
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         ],
