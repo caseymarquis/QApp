@@ -13,8 +13,6 @@
 
 <script>
 import moment from "moment";
-import ebd from "eonasdan-bootstrap-datetimepicker";
-import $ from "jquery";
 
 let id = 0;
 
