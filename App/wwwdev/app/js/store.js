@@ -7,6 +7,11 @@ const store = new Vuex.Store({
     state: {
         loggedIn: false,
         loginMessage: "",
+        modal: {
+            show: false,
+            title: "",
+            text: "",
+            showCancel: true,
         },
         pageFluid: false,
         pageTitle: "",
@@ -45,6 +50,9 @@ const store = new Vuex.Store({
         },
         clearLoginMessage(state) {
             state.loginMessage = "";
+        },
+        setModal(state, modal){
+            state.modal = modal;
         },
         setPageTitle(state, title) {
             if (title === null || title === undefined) {

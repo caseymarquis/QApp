@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container">
+        <div class="modal-container" :style="containerStyle">
           <div class="modal-header">
               <h2 v-text="title">
               </h2>
@@ -24,12 +24,15 @@
 
 <script>
 export default {
-    props: ['title', 'showCancel'],
+    props: ['title', 'showCancel', 'width'],
     data(){
         return {
         };
     },
     computed: {
+      containerStyle(){
+        return `width: ${this.width || '500px'}`
+      }
     },
     methods: {
     }
@@ -55,7 +58,6 @@ export default {
 }
 
 .modal-container {
-  width: 500px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
