@@ -1,32 +1,12 @@
 ﻿<template>
-    <div>
-        <div class="row" style="margin-top:15px;">
-            <div class="col-sm-1">
-            </div>
-            <div class="col-sm-10">
-                <div class="form-group">
-                    <label>
-                        Username:
-                    </label>
-                    <input  v-model="username" v-on:keyup="submitLoginIfEnter" name="username" class="form-control" type="text"/>
-                </div>
-                <div class="form-group">
-                    <label>
-                        Password:
-                    </label>
-                    <input v-model="password" v-on:keyup="submitLoginIfEnter" name="password" class="form-control" type="password"/>
-                </div>
-                <div v-if="shouldShowLoginMessage">
-                    <p v-text="loginMessage" class="failure-message"></p>
-                </div>
-                <div class="form-group">
-                    <button v-on:click="submitLogin" value="Log In" class="btn btn-primary log-in-button">
-                        Log In
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="app-login">
+    <label>Email:</label>
+    <input v-model="username" v-on:keyup="submitLoginIfEnter" name="username" type="text" />
+    <label>Password:</label>
+    <input v-model="password" v-on:keyup="submitLoginIfEnter" name="password" type="password" />
+    <p v-if="shouldShowLoginMessage" v-text="loginMessage"></p>
+    <button v-on:click="submitLogin" value="Log In" class="btn btn-primary log-in-button">Log In</button>
+  </div>
 </template>
 
 <script>
@@ -78,10 +58,27 @@ export default {
 </script>
 
 <style>
-.log-in-button {
-  width: 100%;
+.app-login {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  padding: 1em 5% 0 5%;
 }
-.failure-message {
+
+.app-login > label,
+.app-login > p {
+  align-self: flex-start;
+}
+
+.app-login > p {
   color: red;
+}
+
+.app-login > input {
+  margin-bottom: 1em;
+}
+
+.app-login > button {
+  width: 100%;
 }
 </style>

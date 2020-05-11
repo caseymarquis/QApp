@@ -1,66 +1,44 @@
 <template>
-    <div>
-        <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-dark bg-primary">
-            <router-link to="/" class="navbar-brand">
-                Logo
-                <!--img :src="imgLogo" class="center-block visible-lg" style="height: 70px; margin-left: 0;" /-->
-                <!--img :src="imgLogo" class="center-block visible-md visible-sm" style="max-height: 35px; margin-left: 0; margin-top: 15px;" /-->
-            </router-link>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <h2 class="page-title visible-lg" v-text="pageTitle"></h2>
-                    </li>
-                    <li v-if="loggedIn" class="nav-item active">
-                        <button class="btn btn-primary slide-menu-btn" v-on:click="toggleSlide">
-                            <fa-icon icon="bars" size="lg" />
-                        </button>
-                    </li>
-                    <li v-if="loggedIn && $store.state.search.show" class="nav-item active">
-                        <search-bar
-                            v-model="searchText"
-                            class="main-search"
-                            placeholder="Search..."
-                        ></search-bar>
-                    </li>
-                </ul>
-                <ul v-if="loggedIn" class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <router-link :to="'/user/' + $store.state.user.id" class="nav-link">
-                            <span v-text="userFirstName"></span>
-                        </router-link>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" v-on:click="logout">Log Out</a>
-                    </li>
-                    <li class="nav-item active">
-                        <router-link to="/" class="nav-link">Home</router-link>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+  <div id="main-layout">
+    <app-modal v-if="$store.state.modal.show" :title="$store.state.modal.title" :show-cancel="$store.state.modal.showCancel" v-on:close="closeMainModal">
+      <p v-text="$store.state.modal.text"></p>
+    </app-modal>
 
-        <div class="container-fluid container-fluid-main" :style="containerMainStyle">
-            <slide-menu></slide-menu>
-            <page-home style="height: 100%;" v-if="!loggedIn"></page-home>
-            <router-view style="height: 100%;" v-else></router-view>
-        </div>
+    <slide-menu :style="slideDivStyle"></slide-menu>
+
+    <div id="the-nav">
+      <div class="nav-section">
+        <router-link to="/" id="text-logo">
+            <h1>
+                QApp
+            </h1>
+          <!-- img :src="imgLogo" id="the-logo" / -->
+        </router-link>
+        <h2 id="page-title" class="visible-lg" v-text="pageTitle"></h2>
+        <button v-if="loggedIn" class="btn btn-primary" v-on:click="toggleSlide">
+          <span class="glyphicon glyphicon-list"></span>
+        </button>
+      </div>
+
+      <search-bar id="nav-search" :wide="true" v-if="loggedIn && $store.state.search.show" v-model="searchText" placeholder="Search..."></search-bar>
+
+      <div v-if="loggedIn" class="nav-section">
+        <router-link v-text="userFirstName" :to="'/user/' + $store.state.user.id" class="nav-link"></router-link>
+        <a v-on:click="logout" class="nav-link">Log Out</a>
+        <router-link to="/" class="nav-link">Home</router-link>
+      </div>
     </div>
+
+    <div id="site-container" :style="mainDivStyle">
+      <page-home style="height: 100%;" v-if="!loggedIn"></page-home>
+      <router-view v-else style="height: 100%;"></router-view>
+    </div>
+  </div>
 </template>
 
 <script>
 import PageHome from "../page-home/page-home.vue";
+import AppModal from "../shared-components/app-modal.vue";
 import SearchBar from "../shared-components/search-bar.vue";
 import SlideMenu from "./slide-menu.vue";
 //import imgLogo from "../img/logo.png";
@@ -129,8 +107,11 @@ export default {
                 this.$store.commit("setSearchText", text);
             }
         },
-        containerMainStyle(){
-            return this.$store.state.pageFluid? { height: `${this.$store.state.screenHeight}px` } : {};
+        mainDivStyle(){
+            return { height: `${this.$store.state.screenHeight}px` } 
+        },
+        slideDivStyle(){
+            return { height: `${this.$store.state.screenHeight}px` } 
         }
     },
     methods: {
@@ -143,12 +124,13 @@ export default {
             this.$store.commit("toggleSlide");
         },
         updateScreenHeight() {
-            var navEl = document.getElementById('navbar-main');
-            if(navEl){
-                let newVal = window.innerHeight - navEl.clientHeight;
-                if(newVal !== this.$store.state.screenHeight){
-                    this.$store.commit('setScreenHeight', newVal);
-                }
+            let navEl = document.getElementById('the-nav');
+            if(!navEl){
+                return;
+            }
+            let newVal = window.innerHeight - navEl.clientHeight;
+            if(newVal !== this.$store.state.screenHeight){
+                this.$store.commit('setScreenHeight', newVal);
             }
         }
     },
@@ -163,57 +145,108 @@ export default {
 <style lang="scss">
 @import "globals.scss";
 
-.navbar-main{
-    min-height: $navbar-main-height;
+#main-layout {
+  display: flex;
+  flex-flow: column nowrap;
+  padding-top: 50px;
 }
 
-.bg-primary {
-    .navbar-nav .active > .nav-link {
-        color: #fff !important;
-        font-size: large;
-        font-weight: normal;
-    }
-    .navbar-nav .active > .nav-link:hover {
-        color: #18bc9c !important;
-    }
+#print-header {
+  font-size: xx-large;
+  margin-left: 10px;
+  display: inline-block;
+  border-bottom: solid;
 }
 
-$brand-padding: 15px;
-.navbar-brand {
-    padding-left: $brand-padding;
-    padding-right: $brand-padding;
-    font-size: large;
+#the-nav {
+  position: fixed;
+  top: 0;
+  z-index: 5;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2c3e50;
 }
 
-a {
-    color: blue;
-    cursor: pointer;
-    font-weight: bold;
+.nav-section {
+  padding-left: 0.5em;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-around;
 }
 
-.page-title {
+#text-logo, #text-logo > h1 {
     color: white;
-    text-shadow: black 2px 2px;
-    font-size: x-large;
-    border-top: solid;
-    border-bottom: solid;
-    border-width: 1px;
-    margin-top: 10.5px;
+    text-decoration: none;
+    font-size: 1.25em;
 }
 
-$slide-menu-btn-margin: 10px;
-.slide-menu-btn{
-    height: 100%;
-    margin-left: $slide-menu-btn-margin;
-    margin-right: $slide-menu-btn-margin;
+#text-logo:hover{
+    text-decoration: none;
 }
 
-.main-search {
-    height: 100%;
+#nav-search {
+  flex-shrink: 1;
+  max-width: 400px;
 }
 
-.container-fluid{
-    padding-left: $container-fluid-padding;
-    padding-right: $container-fluid-padding;
+.nav-section > * {
+  margin-right: 1em;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+  font-weight: normal;
+}
+
+.nav-link:hover {
+  color: lightgray;
+}
+
+#report-title {
+  margin-left: 2em;
+  margin-bottom: 0;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+#page-title {
+  color: white;
+  text-shadow: black 2px 2px;
+  font-size: x-large;
+  border-top: solid;
+  border-bottom: solid;
+  border-width: 1px;
+}
+
+#site-container {
+  position: relative;
+}
+
+@media (max-width: 720px) {
+  #the-logo {
+    display: none;
+  }
+}
+@media (max-width: 1200px) {
+  #the-logo {
+    height: 35px;
+  }
+  .nav-link {
+    font-size: 1em;
+  }
+}
+@media (min-width: 1200px) {
+  #the-logo {
+    height: 45px;
+  }
+  .nav-link {
+    font-size: 1.25em;
+  }
 }
 </style>

@@ -1,117 +1,178 @@
 <template>
-    <div>
-        <div class="row hidden-md-down" style="border-bottom:solid; height: 10%;">
-            <div class="col-6 d-flex" style="flex-direction: column-reverse;">
-                <h1 class="app-title">An App</h1>
-            </div>
-            <div class="col-6 d-flex" style="flex-direction: column-reverse;">
-                    <h3 class="directory-title">
-                        <span v-if="!loggedIn">Log In</span>
-                        <span v-else>What would you like to do?</span>
-                    </h3>
-            </div>
-        </div>
-        <div class="row" style="height: 90%;">
-            <div class="col-6 hidden-xs-down" style="border-right:solid;">
-                <div class="row home-market-row">
-                    <div class="col-12">
-                        <h2 class="home-market-title">
-                            Welcome to some app.
-                        </h2>
-                        <p
-                            class="home-market-text"
-                        >This is where some stuff about the app could be written.</p>
-                    </div>
-                </div>
-                <div class="row home-market-row">
-                    <div class="col-12">
-                        <h2 class="home-market-title">
-                            More stuff!
-                        </h2>
-                        <p
-                            class="home-market-text"
-                        >Even more could be written here! Untold troves of information!</p>
-                    </div>
-                </div>
-                <div class="row home-market-row">
-                    <div class="col-12">
-                        <h2 class="home-market-title">
-                            The rule of three.
-                        </h2>
-                        <p class="home-market-text">
-                            The rule of three is a writing principle that suggests that a trio of events or characters is more humorous,
-                            satisfying, or effective than other numbers in execution of the story and engaging the reader.
-                            I didn't make the rules.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 right-home-column">
-                <app-login v-if="!loggedIn"></app-login>
-                <app-directory v-else></app-directory>
-            </div>
-        </div>
+  <div id="page-home">
+    <div id="home-top-row">
+      <div style="width: 50%;"></div>
+      <div id="what-do-div">
+        <h3>
+          <span v-if="loggedIn">What would you like to do?</span>
+          <span v-else>Log In</span>
+        </h3>
+      </div>
     </div>
+    <div id="home-bottom-row">
+      <div id="home-marketing">
+        <div class="marketing-row marketing-1">
+          <div class="info-div">
+            <h2 class="home-market-title">Welcome to some app.</h2>
+            <p>This is where some stuff about the app could be written.</p>
+          </div>
+        </div>
+        <div class="marketing-row marketing-2">
+          <div class="info-div">
+            <h2 class="home-market-title">More stuff!</h2>
+            <p>Even more could be written here! Untold troves of information!</p>
+          </div>
+        </div>
+        <div class="marketing-row marketing-3">
+          <div class="info-div">
+            <h2 class="home-market-title">The rule of three.</h2>
+            <p>
+              The rule of three is a writing principle that suggests that a trio of events or characters is more humorous,
+              satisfying, or effective than other numbers in execution of the story and engaging the reader.
+              I didn't make the rules.
+            </p>
+          </div>
+        </div>
+      </div>
+      <app-login v-if="!loggedIn" class="the-login"></app-login>
+      <app-directory v-else class="the-directory"></app-directory>
+    </div>
+  </div>
 </template>
 
 <script>
 import AppLogin from "../shared-components/app-login.vue";
 import AppDirectory from "./app-directory.vue";
 
-//import imgA from "../img/a.png";
-//import imgB from "../img/b.jpg";
-//import imgC from "../img/c.png";
-//import imgLogo from "../img/logo.png";
 import SetupPage from "../js/SetupPage.js";
 
 export default {
-    mounted() {
-        SetupPage.title("").fluid();
-    },
-    data() {
-        return {
-            //imgA,
-            //imgB,
-            //imgC,
-            //imgLogo
-        };
-    },
-    computed: {
-        loggedIn() {
-            return this.$store.state.loggedIn;
-        }
-    },
-    components: {
-        AppLogin,
-        AppDirectory
+  mounted() {
+    SetupPage.title("").fluid();
+  },
+  data() {
+    return {
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.loggedIn;
     }
+  },
+  components: {
+    AppLogin,
+    AppDirectory
+  }
 };
 </script>
 
-<style>
-.app-title{
-    text-shadow: #aaa 2px 2px 2px;
-    text-align: center;
+<style scoped>
+#page-home {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
 }
 
-.directory-title {
-    text-shadow: #aaa 2px 2px 2px;
-    text-align: center;
+#home-top-row {
+  display: flex;
+  flex-flow: row nowrap;
+  border-bottom: solid;
 }
 
-.home-market-row{
-    border-bottom: solid;
-    padding-top: 10px;
+#what-do-div {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+#home-bottom-row {
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+#home-marketing {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  border-right: solid;
+  width: 50%;
+}
+
+.marketing-row {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+}
+
+.marketing-row > * {
+  width: 50%;
+  flex-grow: 1;
+}
+
+.marketing-1 {
+  border-bottom: solid;
+  align-items: flex-end;
+}
+
+.marketing-2 {
+  border-bottom: solid;
+}
+
+.marketing-3 {
+  flex-grow: 1;
+}
+
+.info-div {
+  display: flex;
+  flex-grow: 1;
+  flex-flow: column nowrap;
+  align-items: center;
+  padding: 1em;
+}
+
+.img-div {
+  width: 50%;
 }
 
 .home-market-title {
-    color: black;
-    font-size: x-large;
-    text-align: center;
-    text-shadow: #aaa 1px 1px 1px;
+  color: black;
+  font-size: x-large;
+  text-align: center;
+  text-shadow: #aaa 2px 2px 2px;
 }
 
-.home-market-text {
-    text-align: center;
+.the-directory {
+  overflow: auto;
+  flex-grow: 1;
+}
+
+.the-login {
+  overflow: auto;
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  #home-top-row {
+    display: none;
+  }
+  #home-marketing {
+    display: none;
+  }
+}
+
+@media (max-width: 1200px) {
+  .img-div {
+    display: none;
+  }
+}
+
+@media (max-height: 800px) {
+  .img-div {
+    display: none;
+  }
 }
 </style>
