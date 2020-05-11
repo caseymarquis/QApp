@@ -1,7 +1,7 @@
 <template>
   <div class="component" :class="{'wide-search': wide}">
     <input :id="id" class="search-input" :class="{'bold-placeholder': boldPlaceholder}" type="text" autocomplete="off" :placeholder="placeholder" v-model="searchText" v-on:keyup="raiseSearch" v-on:blur="onBlur" v-on:focus="onFocus" @click="onClick" />
-    <button class="btn default search-btn" v-on:click="raiseSearch">
+    <button class="btn btn-secondary search-btn" v-on:click="raiseSearch">
       <fa-icon icon="search" size="lg" />
     </button>
   </div>
@@ -107,7 +107,6 @@ export default {
 .search-btn {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    color: white;
 }
 
 .bold-placeholder::placeholder {
