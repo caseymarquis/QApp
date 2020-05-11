@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Models;
 using QApp.Actors.Signalr;
-using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,7 +34,7 @@ namespace QApp.Web
                     ForwardedHeaders.All;
                 options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("::ffff:0.0.0.0"), 0));
             });
-            services.AddMvc();
+            services.AddControllers();
             if (!Debugger.IsAttached) {
                 services.AddHsts(options => {
                     options.Preload = true;
@@ -49,14 +49,14 @@ namespace QApp.Web
             }
             
             services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new Info { Title = "QApp API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "QApp API", Version = "v1" });
             });
             services.AddSignalR();
             services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if (!Debugger.IsAttached) {
                 app.UseForwardedHeaders();
                 app.UseHsts();
@@ -97,13 +97,13 @@ namespace QApp.Web
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowAnyOrigin()
-                .AllowCredentials()
                 );
             }
 
-            app.UseMvc();
-            app.UseSignalR(routes => {
-                //routes.MapHub<UpdateHub>("updates");
+            app.UseRouting();
+            app.UseEndpoints(c => {
+                c.MapControllers();
+                c.MapHub<UpdateHub>("updates");
             });
 
             app.Use(async (context, next) => {
