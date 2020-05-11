@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using QApp.Actors.Signalr;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace QApp.Web
 {
@@ -101,6 +104,12 @@ namespace QApp.Web
             app.UseMvc();
             app.UseSignalR(routes => {
                 //routes.MapHub<UpdateHub>("updates");
+            });
+
+            app.Use(async (context, next) => {
+                var hubContext = context.RequestServices.GetRequiredService<IHubContext<UpdateHub, IUpdateHubClient>>();
+                App.Director.AddSingletonDependency(hubContext, new Type[] { typeof(IHubContext<UpdateHub, IUpdateHubClient>) });
+                await Task.FromResult(0);
             });
         }
     }
