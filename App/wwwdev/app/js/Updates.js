@@ -1,6 +1,4 @@
-﻿import 'expose-loader?jQuery!jquery';
-
-import SignalR from 'signalr';
+﻿import SignalR from 'signalr';
 import Env from './Environment';
 import $script from 'scriptjs';
 import axios from 'axios';
