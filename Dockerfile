@@ -1,11 +1,9 @@
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /app
-COPY AppCore/AppCore.csproj AppCore/
 COPY App/App.csproj App/
-RUN dotnet restore AppCore/AppCore.csproj
-COPY ./AppCore/ ./AppCore/
+RUN dotnet restore App/App.csproj
 COPY ./App/ ./App/
-RUN dotnet publish ./AppCore/AppCore.csproj -c Release -o /output
+RUN dotnet publish ./App/App.csproj -c release -o /output --no-restore
 
 FROM node AS www
 WORKDIR /wwwdev
@@ -15,13 +13,13 @@ COPY App/wwwdev/ ./
 #COPY App/wwwroot/*.ico /wwwroot/
 RUN node ./node_modules/webpack/bin/webpack.js --progress --colors --display-error-details --content-base ../wwwroot
 
-FROM microsoft/dotnet:2.1-runtime AS final
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS final
 WORKDIR /app
 COPY --from=build /output ./
 Copy --from=www /wwwroot ./wwwroot/
 
 #Normal entrypoint:
-#ENTRYPOINT ["dotnet", "AppCore.dll"]
+#ENTRYPOINT ["dotnet", "QApp.dll"]
 
 #Heroku entrypoint:
-CMD DATABASE_URL=$DATABASE_URL ASPNETCORE_URLS=http://*:$PORT dotnet AppCore.dll
+CMD DATABASE_URL=$DATABASE_URL ASPNETCORE_URLS=http://*:$PORT dotnet QApp.dll
