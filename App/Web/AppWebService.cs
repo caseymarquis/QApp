@@ -113,7 +113,7 @@ namespace QApp.Web
             app.UseRouting();
             app.UseEndpoints(c => {
                 c.MapControllers();
-                c.MapHub<UpdateHub>("updates");
+                c.MapHub<UpdateHub>("/updates");
             });
 
             app.Use(async (context, next) => {

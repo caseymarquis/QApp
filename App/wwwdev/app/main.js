@@ -1,6 +1,5 @@
 import 'babel-polyfill';
 
-import 'jquery';
 import Bootstrap from 'bootstrap';
 import './scss/main.scss';
 
