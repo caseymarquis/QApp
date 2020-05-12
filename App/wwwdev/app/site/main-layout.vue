@@ -24,7 +24,7 @@
 
       <div v-if="loggedIn" class="nav-section">
         <router-link v-text="userFirstName" :to="'/user/' + $store.state.user.id" class="nav-link"></router-link>
-        <a v-on:click="logout" class="nav-link">Log Out</a>
+        <a href="javascript:void(0)" v-on:click="logout" class="nav-link">Log Out</a>
         <router-link to="/" class="nav-link">Home</router-link>
       </div>
     </div>
@@ -198,7 +198,7 @@ export default {
   margin-right: 1em;
 }
 
-.nav-link, .nav-link a:not([href]) {
+.nav-link {
   text-decoration: none;
   color: white;
   font-weight: normal;
