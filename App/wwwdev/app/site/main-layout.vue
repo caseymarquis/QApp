@@ -198,7 +198,7 @@ export default {
   margin-right: 1em;
 }
 
-.nav-link {
+.nav-link, .nav-link a:not([href]) {
   text-decoration: none;
   color: white;
   font-weight: normal;

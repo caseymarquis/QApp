@@ -1,6 +1,5 @@
 import 'babel-polyfill';
 
-import Bootstrap from 'bootstrap';
 import './scss/main.scss';
 
 import Vue from 'vue';
@@ -30,8 +29,8 @@ const PageUsers = () => import('./page-users/page-users.vue');
 const PageUser = () => import('./page-user/page-user.vue');
 
 import Env from './js/Environment';
-
 import store from './js/store.js';
+import Updates from './js/Updates.js'; //Load signalR;
 
 Vue.use(VueRouter);
 

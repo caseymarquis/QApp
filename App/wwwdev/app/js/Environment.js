@@ -3,7 +3,7 @@ import moment from 'moment';
 
 let Env = {
     apiRoot: "/api/v1",
-    signalrRoot: "/signalr",
+    signalrRoot: "/updatehub",
     devServer: false,
     debug: false,
     setApiRoot(token) {
@@ -21,7 +21,7 @@ if (window.location.href.includes(":808")) {
     let host = window.location.hostname;
     host = host.split(":")[0];
     Env.apiRoot = `http://${host}:5000/api/v1`;
-    Env.signalrRoot = `http://${host}:5000/signalr`;
+    Env.signalrRoot = `http://${host}:5000/updatehub`;
     Env.devServer = true;
     Env.debug = true;
 }

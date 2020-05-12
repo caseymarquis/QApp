@@ -25,11 +25,8 @@
         </div>
         <div class="marketing-row marketing-3">
           <div class="info-div">
-            <h2 class="home-market-title">The rule of three.</h2>
-            <p>
-              The rule of three is a writing principle that suggests that a trio of events or characters is more humorous,
-              satisfying, or effective than other numbers in execution of the story and engaging the reader.
-              I didn't make the rules.
+            <h2 class="home-market-title">Random Messages from the Server(s)</h2>
+            <p v-for="serverMessage in serverMessages" :key="serverMessage.key" v-text="serverMessage">
             </p>
           </div>
         </div>
@@ -46,18 +43,35 @@ import AppDirectory from "./app-directory.vue";
 
 import SetupPage from "../js/SetupPage.js";
 
+import Updates from "../js/Updates.js";
+
 export default {
-  mounted() {
-    SetupPage.title("").fluid();
-  },
   data() {
     return {
+      serverMessages: [],
     };
+  },
+  mounted() {
+    SetupPage.title("").fluid();
+    Updates.register(this, ["random-number"]);
+  },
+  destroyed(){
+      Updates.remove(this);
   },
   computed: {
     loggedIn() {
       return this.$store.state.loggedIn;
     }
+  },
+  methods: {
+    processUpdate : function(group, cmd){
+      if(group === "random-number"){
+        if(this.serverMessages.length > 10){
+          this.serverMessages.shift();
+        }
+        this.serverMessages = this.serverMessages.concat([cmd]);
+      }
+    },
   },
   components: {
     AppLogin,

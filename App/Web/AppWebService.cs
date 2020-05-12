@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using KC.Actin;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -14,6 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,6 +39,9 @@ namespace QApp.Web
             return true;
         }
 
+        const string corsAllowAll = "corsAllowAll";
+        const string corsCustom = "corsCustom";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.Configure<ForwardedHeadersOptions>(options => {
@@ -44,25 +49,36 @@ namespace QApp.Web
                     ForwardedHeaders.All;
                 options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("::ffff:0.0.0.0"), 0));
             });
-            services.AddControllers();
             if (useHSTS()) {
                 services.AddHsts(options => {
                     options.Preload = true;
                     options.IncludeSubDomains = true;
                     options.MaxAge = TimeSpan.FromDays(60);
                 });
-                services.AddHttpsRedirection(options =>
-                {
+                services.AddHttpsRedirection(options => {
                     options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
                     options.HttpsPort = 443;
                 });
             }
-            
+
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "QApp API", Version = "v1" });
             });
-            services.AddSignalR();
-            services.AddCors();
+            services.AddControllers();
+            services.AddSignalR(c => {
+                c.EnableDetailedErrors = true;
+            });
+            services.AddCors(options => {
+                options.AddPolicy(corsAllowAll, builder => {
+                    builder.SetIsOriginAllowed(_ => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+                });
+                options.AddPolicy(corsCustom, builder => {
+                    //Add a customized cors policy as needed:
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +92,7 @@ namespace QApp.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
             app.UseDefaultFiles();
 
             app.UseStaticFiles();
@@ -102,24 +119,28 @@ namespace QApp.Web
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "QApp API v1");
             });
 
-            if (Debugger.IsAttached) {
-                app.UseCors(builder => builder
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowAnyOrigin()
-                );
-            }
+            var corsPolicy = Debugger.IsAttached ? corsAllowAll : corsCustom;
+            app.UseCors(corsPolicy);
 
-            app.UseRouting();
-            app.UseEndpoints(c => {
-                c.MapControllers();
-                c.MapHub<UpdateHub>("/updates");
-            });
-
+            object lockMiddleware = new object();
+            var haveHubContext = false;
             app.Use(async (context, next) => {
-                var hubContext = context.RequestServices.GetRequiredService<IHubContext<UpdateHub, IUpdateHubClient>>();
-                App.Director.AddSingletonDependency(hubContext, new Type[] { typeof(IHubContext<UpdateHub, IUpdateHubClient>) });
-                await Task.FromResult(0);
+                lock (lockMiddleware) {
+                    if (!haveHubContext) {
+                        var hubContext = context.RequestServices.GetRequiredService<IHubContext<UpdateHub, IUpdateHubClient>>();
+                        if (hubContext != null) {
+                            App.Director.AddSingletonDependency(hubContext, new Type[] { typeof(IHubContext<UpdateHub, IUpdateHubClient>) });
+                            haveHubContext = true;
+                        }
+                    }
+                }
+                if (next != null) {
+                    await next.Invoke();
+                }
+            });
+            app.UseEndpoints(c => {
+                c.MapHub<UpdateHub>("/updatehub");
+                c.MapControllers();
             });
         }
     }

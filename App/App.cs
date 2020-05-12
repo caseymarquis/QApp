@@ -85,6 +85,17 @@ namespace QApp {
                         util.Log.Error("Failed to Migrate DB. Proceeding regardless.", ex);
                     }
 
+                    try {
+                        if (AppDbContext.CanStartPubSubLoop) {
+                            AppDbContext.StartPubSubLoop(ex => {
+                                util.Log.Error("Failed to start DB PubSub loop (inner). Proceeding regardless.", ex);
+                            });
+                        }
+                    }
+                    catch (Exception ex) {
+                        util.Log.Error("Failed to start DB PubSub loop (outer). Proceeding regardless.", ex);
+                    }
+
                     await retryUntilSuccessful("Populate DB", async () => {
                         await AppDbContext.Populate();
                         return true;
@@ -129,6 +140,9 @@ namespace QApp {
 
         public void Dispose() {
             Director.Dispose();
+            if (AppDbContext.CanStartPubSubLoop) {
+                AppDbContext.StopPubSubLoop();
+            }
         }
     }
 }

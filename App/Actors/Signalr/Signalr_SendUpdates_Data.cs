@@ -15,16 +15,22 @@ namespace QApp.Actors.Signalr {
     }
 
     public class UpdateHub : Hub<IUpdateHubClient> {
+        public void renew(string groups) {
+            if (App.Director.TryGetSingleton<Signalr_PubSub>(out var signalr_PubSub)){
+                foreach (var group in groups.Split('|')) {
+                    signalr_PubSub.SubscribeToBroadcastGroupFor15Minutes(group);
+                }
+            }
+        }
+
         public async Task subscribe(string group) {
-            //TODO: Optionally, ensure that the client is allowed to subscribe to said group.
-            //Ideally, you shouldn't be sending data with SignalR, just simple notifications that an update
-            //exists. As such, there's not a whole lot of point in checking first.
-            //TODO: Notify pubsub
+            if (App.Director.TryGetSingleton<Signalr_PubSub>(out var signalr_PubSub)){
+                signalr_PubSub.SubscribeToBroadcastGroupFor15Minutes(group);
+            }
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, group);
         }
 
         public async Task unsubscribe(string group) {
-            //TODO: Notify pubsub
             await this.Groups.RemoveFromGroupAsync(this.Context.ConnectionId, group);
         }
     }
