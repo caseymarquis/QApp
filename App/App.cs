@@ -79,6 +79,9 @@ namespace QApp {
                         await AppDbContext.Migrate();
                     }
                     catch (Exception ex) {
+                        //In multiserver environments with controlled rollouts, old application versions may start
+                        //after a new version has updated the DB (or if you roll back). In this case, you want the app to still start.
+                        //It is up to the developer to ensure DB Schema changes allow this (ie only additive until a feature is fully removed)
                         util.Log.Error("Failed to Migrate DB. Proceeding regardless.", ex);
                     }
 
