@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KC.Actin;
+using System.Data.Common;
 
 namespace QApp.Actors {
 
@@ -24,7 +24,7 @@ namespace QApp.Actors {
                 });
                 return m_DbIsUp.Value = true;
             }
-            catch (SqlException) {
+            catch (DbException) {
                 return m_DbIsUp.Value = false;
             }
         }
