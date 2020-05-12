@@ -27,6 +27,16 @@ namespace QApp.Web
 
         public IConfiguration Configuration { get; }
 
+        private bool useHSTS() {
+            if (Debugger.IsAttached) {
+                return false;
+            }
+            if (Environment.GetEnvironmentVariable("NOHSTS") != null) {
+                return false;
+            }
+            return true;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.Configure<ForwardedHeadersOptions>(options => {
@@ -35,7 +45,7 @@ namespace QApp.Web
                 options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("::ffff:0.0.0.0"), 0));
             });
             services.AddControllers();
-            if (!Debugger.IsAttached) {
+            if (useHSTS()) {
                 services.AddHsts(options => {
                     options.Preload = true;
                     options.IncludeSubDomains = true;
@@ -57,7 +67,7 @@ namespace QApp.Web
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-            if (!Debugger.IsAttached) {
+            if (useHSTS()) {
                 app.UseForwardedHeaders();
                 app.UseHsts();
                 app.UseHttpsRedirection();
