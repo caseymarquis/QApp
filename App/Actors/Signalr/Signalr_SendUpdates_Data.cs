@@ -15,10 +15,11 @@ namespace QApp.Actors.Signalr {
     }
 
     public class UpdateHub : Hub<IUpdateHubClient> {
-        public void renew(string groups) {
+        public async Task renew(string groups) {
             if (App.Director.TryGetSingleton<Signalr_PubSub>(out var signalr_PubSub)){
                 foreach (var group in groups.Split('|')) {
                     signalr_PubSub.SubscribeToBroadcastGroupFor15Minutes(group);
+                    await this.Groups.AddToGroupAsync(this.Context.ConnectionId, group);
                 }
             }
         }
