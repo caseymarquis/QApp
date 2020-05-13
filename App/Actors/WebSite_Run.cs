@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using KC.Actin;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.SignalR;
+using QApp.Actors.Signalr;
 
 namespace QApp.Actors {
     [Singleton]
@@ -22,13 +25,19 @@ namespace QApp.Actors {
 
             var contentRoot =
                 Path.Combine(Directory.GetCurrentDirectory());
-            var host = WebHost.CreateDefaultBuilder();
+            var hostBuilder = Host.CreateDefaultBuilder();
+            var host = hostBuilder.ConfigureWebHostDefaults(webBuilder => {
+                webBuilder
+                    .UseContentRoot(contentRoot)
+                    .UseStartup<AppWebService>()
+                    .UseUrls(App.Config.AppUrl);
+            })
+            .Build();
+            host.RunAsync();
 
-            host.UseContentRoot(contentRoot)
-            .UseStartup<AppWebService>()
-            .UseUrls(App.Config.AppUrl) //Use a reverse proxy to get this to port 443 with SSL.
-            .Build()
-            .RunAsync(cToken);
+            var hubContext = host.Services.GetService(typeof(IHubContext<UpdateHub, IUpdateHubClient>));
+            App.Director.AddSingletonDependency(hubContext, new Type[] { typeof(IHubContext<UpdateHub, IUpdateHubClient>) });
+
             return Task.FromResult(0);
         }
 

@@ -122,22 +122,6 @@ namespace QApp.Web
             var corsPolicy = Debugger.IsAttached ? corsAllowAll : corsCustom;
             app.UseCors(corsPolicy);
 
-            object lockMiddleware = new object();
-            var haveHubContext = false;
-            app.Use(async (context, next) => {
-                lock (lockMiddleware) {
-                    if (!haveHubContext) {
-                        var hubContext = context.RequestServices.GetRequiredService<IHubContext<UpdateHub, IUpdateHubClient>>();
-                        if (hubContext != null) {
-                            App.Director.AddSingletonDependency(hubContext, new Type[] { typeof(IHubContext<UpdateHub, IUpdateHubClient>) });
-                            haveHubContext = true;
-                        }
-                    }
-                }
-                if (next != null) {
-                    await next.Invoke();
-                }
-            });
             app.UseEndpoints(c => {
                 c.MapHub<UpdateHub>("/updatehub");
                 c.MapControllers();
