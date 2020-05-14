@@ -28,7 +28,6 @@ namespace QApp.Actors {
             var hostBuilder = Host.CreateDefaultBuilder();
             var host = hostBuilder.ConfigureWebHostDefaults(webBuilder => {
                 webBuilder
-                    .UseContentRoot(contentRoot)
                     .UseStartup<AppWebService>()
                     .UseUrls(App.Config.AppUrl);
             })
