@@ -23,8 +23,6 @@ namespace QApp.Actors {
         protected override Task OnInit(ActorUtil util) {
             var cToken = cTokenSource.Token;            
 
-            var contentRoot =
-                Path.Combine(Directory.GetCurrentDirectory());
             var hostBuilder = Host.CreateDefaultBuilder();
             var host = hostBuilder.ConfigureWebHostDefaults(webBuilder => {
                 webBuilder
