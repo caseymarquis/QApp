@@ -1,12 +1,12 @@
 # QApp
 
-QApp is a repo which can be cloned to quickly create a dotnet standard web application with a vuejs frontend.
+QApp is a repo which can be cloned to quickly create a dotnet core web application with a vuejs frontend.
 
-The application can be run locally on either .net core or .net framework, and has the proper configuration to
+The application can be run locally on .net core, and has the proper configuration to
 be easily pushed to Heroku, running from within a docker container.
 
 There's more to it than that, as the application uses a lot of my personal .net libraries for building web applications,
-simplifying things like database connections and utilizing a DI/Process framework I built for standalone .net services.
+simplifying things like database connections and utilizing a DI/Actor framework I built for standalone .net services.
 User login/creating/editing is available, Vuex and VueRouter are already set up and ready to go. Webpack is configured properly
 for single file components, changing file names to invalidate caching, and async loading application chunks for speedy performance.
 A decent base style is present using bootstrap 4 with the bootswatch 'flatly' theme. There's even a proper Dockerfile for building
