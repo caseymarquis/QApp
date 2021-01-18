@@ -37,135 +37,125 @@ var outputDirectory = isDevServer ? './app/_dev-server' : '../wwwroot';
 
 //Main config:
 module.exports =
-    {
-        context: path.join(__dirname, 'app'),
-        entry: {
-            app: './main.js',
-        },
-        output: {
-            globalObject: 'self',
-            path: path.join(__dirname, outputDirectory),
-            filename: 'app.bundle.[chunkhash].js'
-        },
-        mode: isDev? 'development' : 'production',
-        devtool: 'source-map',
-        optimization: {
-            splitChunks: {
-                chunks: 'async',
-                minSize: 30000,
-                maxSize: 0,
-                minChunks: 1,
-                maxAsyncRequests: 6,
-                maxInitialRequests: 4,
-                automaticNameDelimiter: '~',
-                automaticNameMaxLength: 30,
-                cacheGroups: {
-                    defaultVendors: {
-                        test: /[\\/]node_modules[\\/]/,
-                        priority: -10
-                    },
-                    default: {
-                        minChunks: 2,
-                        priority: -20,
-                        reuseExistingChunk: true
-                    }
+{
+    context: path.join(__dirname, 'app'),
+    entry: {
+        app: './main.js',
+    },
+    output: {
+        globalObject: 'self',
+        path: path.join(__dirname, outputDirectory),
+        filename: 'app.bundle.[chunkhash].js'
+    },
+    mode: isDev ? 'development' : 'production',
+    devtool: 'source-map',
+    optimization: {
+        splitChunks: {
+            chunks: 'async',
+            minSize: 30000,
+            maxSize: 0,
+            minChunks: 1,
+            maxAsyncRequests: 6,
+            maxInitialRequests: 4,
+            automaticNameDelimiter: '~',
+            automaticNameMaxLength: 30,
+            cacheGroups: {
+                defaultVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true
                 }
-            },
-            minimize: !isDev,
-            minimizer: [
-                new TerserPlugin({
-                    chunkFilter: (chunk) => {
-                        // Exclude uglification for the `vendor` chunk
-                        let name = chunk.name;
-                        if (name && name.includes('vendor')) {
-                            return false;
-                        }
-                        return true;
-                    },
-                }),
-            ],
+            }
         },
-        module: {
-            rules: [
-                { test: /\.(scss)$/, use: [
-                    { loader: "vue-style-loader"},
-                    { loader: 'css-loader' },
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    ['precss'],
-                                    ['autoprefixer']
-                                ]
-                            }
-                        }
-                    },
-                    { 
-                        loader: 'sass-loader',
-                        options: {
-                            sassOptions: {
-                                includePaths: [path.resolve(__dirname, "./app/scss")],
-                            }
-                        }
-                    }]
+        minimize: !isDev,
+        minimizer: [
+            new TerserPlugin({
+                chunkFilter: (chunk) => {
+                    // Exclude uglification for the `vendor` chunk
+                    let name = chunk.name;
+                    if (name && name.includes('vendor')) {
+                        return false;
+                    }
+                    return true;
                 },
-                { test: /\.css$/, use: [
-                    { loader: "vue-style-loader"},
-                    { loader: "css-loader"}]
-                },
-                { test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, use: [{
-                        loader: 'url-loader',
-                        options: {
-                            limit: 10000,
-                            mimetype: 'application/font-woff'
-                        }
-                    }]
-                },
-                { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: [{
-                        loader: 'url-loader',
-                        options: {
-                            limit: 10000,
-                            mimetype: 'application/octet-stream'
-                        }
-                    }]
-                },
-                { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: 'file-loader' },
-                { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: [{
-                        loader: 'url-loader',
-                        options: {
-                            limit: 10000,
-                            mimetype: 'application/svg+xml'
-                        }
-                    }]
-                },
-                { test: /\.png$/, use: [{
-                        loader: 'url-loader',
-                        options: {
-                            limit: 10000
-                        }
-                    }]
-                },
-                { test: /\.jpg$/, use: "file-loader" },
-                {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    use: [{
-                        loader: 'babel-loader',
-                        options: {presets: ['@babel/preset-env']}
-                    }]
-                },
-                { test: /\.vue$/, use: "vue-loader" },
-            ]
-        },
-        plugins: [
-            new VueLoaderPlugin(),
-            new HtmlWebpackPlugin({
-                hash: true,
-                template: './index.html',
-                filename: 'index.html',
             }),
-            //new BundleAnalyzerPlugin(), //Uncomment to view analysis of bundle size.
-            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         ],
-    };
+    },
+    module: {
+        rules: [
+            {
+                test: /\.scss$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader',
+                    'sass-loader'
+                ]
+            },
+            {
+                test: /\.css$/, use: [
+                    { loader: "vue-style-loader" },
+                    { loader: "css-loader" }]
+            },
+            {
+                test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        mimetype: 'application/font-woff'
+                    }
+                }]
+            },
+            {
+                test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        mimetype: 'application/octet-stream'
+                    }
+                }]
+            },
+            { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: 'file-loader' },
+            {
+                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        mimetype: 'application/svg+xml'
+                    }
+                }]
+            },
+            {
+                test: /\.png$/, use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000
+                    }
+                }]
+            },
+            { test: /\.jpg$/, use: "file-loader" },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: [{
+                    loader: 'babel-loader',
+                    options: { presets: ['@babel/preset-env'] }
+                }]
+            },
+            { test: /\.vue$/, use: "vue-loader" },
+        ]
+    },
+    plugins: [
+        new VueLoaderPlugin(),
+        new HtmlWebpackPlugin({
+            hash: true,
+            template: './index.html',
+            filename: 'index.html',
+        }),
+        //new BundleAnalyzerPlugin(), //Uncomment to view analysis of bundle size.
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    ],
+};
